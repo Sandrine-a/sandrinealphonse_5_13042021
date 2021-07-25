@@ -1,0 +1,22 @@
+{
+  "name": "p5",
+  "version": "1.0.0",
+  "description": "construire un site ecommerce",
+  "main": "index.js",
+  "scripts": {
+    "sass": "sass --watch ./scss/styles.scss:./css/styles.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sandrine-a/sandrinealphonse_5_13042021.git"
+  },
+  "author": "Sandrine Alphonse",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sandrine-a/sandrinealphonse_5_13042021/issues"
+  },
+  "homepage": "https://github.com/Sandrine-a/sandrinealphonse_5_13042021#readme",
+  "dependencies": {
+    "bootstrap": "^5.0.2"
+  }
+}
