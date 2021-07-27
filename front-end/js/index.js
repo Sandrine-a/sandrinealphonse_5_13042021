@@ -1,6 +1,7 @@
 console.log('hello you');
 
-let newDiv = document.createElement('div');
+//Variable 
+let list = document.getElementById('artcicles__list');
 
 //Recuperation liste articles api Meubles en chêne http://localhost:3000/api/furniture
  function getArticles() {
@@ -24,13 +25,14 @@ let newDiv = document.createElement('div');
         <a href="#" class="card-body")> 
         <h3 class="card-title">${data.name}</h3>
         <img src="${data.imageUrl}" class="card-img"/>
-        <p>${data.price}</p> </a>`
-        let list = document.getElementById('artcicles__list');
+        <p>${data.price} €</p> </a>`
         list.appendChild(article);
       });
     })
     .catch(function(err) {
       console.log('une erreur détectée' + err);
+      //ajout message d'erreur dans la page:
+      list.innerHTML = ` <p class="col text-info">Une erreur est survenue, nous vous prions de bien vouloir réessayer dans un instant.</P>` + err;
     })
 }
 getArticles()
