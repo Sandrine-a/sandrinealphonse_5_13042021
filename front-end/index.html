@@ -4,19 +4,36 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="desription" content="Orinoco - Le meilleur pour vous procurer vos appareils photos">
   <link rel="stylesheet" href="css/styles.css" />
   <title>Orinoco - Accueil</title>
 </head>
 <body>
-  <header></header>
-  <main>
-    <h1 class="main__title">Orinoco</h1>
-    <article id="articles_container">
-      <h2 class="articles__name">Articles</h2>
+  <header class="container-fluid bg-primary">
+    <div class="container header">
+      <div class="row">
+        <div class="col-4 ">
+          <img src="images/logo_orinoco_full.png" alt="Logo boutique Orinoco" class="header__logo" />
+        </div>
+      </div>
+    </div>
+  </header>
+  <main class="container">
+    <h1 class="row text-center">Bienvnue sur Orinoco</h1>
+    <div class="row text-center">
+      <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Optio recusandae distinctio dolorum iusto esse vel dolores cupiditate animi accusamus! Ipsa magni totam velit earum quibusdam libero inventore placeat accusamus repellat?.</p>
+    </div>
+    <article id="articles_container" class="row">
+      <h2 class="articles__name col text-center">Articles</h2>
       <div id="artcicles__list"></div>
     </article>
   </main>
-  <footer>
+  <footer class="container-fluid bg-primary">
+    <div class="container">
+      <div class="row text-center">
+        <p>Contact</p>
+      </div>
+    </div>
   </footer>
   <script src="./js/index.js"></script>
 </body>

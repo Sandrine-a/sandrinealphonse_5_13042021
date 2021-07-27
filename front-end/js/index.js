@@ -4,7 +4,7 @@ let newDiv = document.createElement('div');
 
 //Recuperation liste articles api Meubles en chêne http://localhost:3000/api/furniture
  function getArticles() {
-  fetch('http://localhost:3000/api/furniture/')
+  fetch('http://localhost:3000/api/cameras/')
     .then(function(res) {
       if (res.ok) {
         console.log(res);
@@ -16,11 +16,15 @@ let newDiv = document.createElement('div');
       dataList.forEach(function(data) {
         console.log(data)
         //ajout des <div> pour article:
-        let article = document.createElement('article')
-        //ajout données affichées pour chaque article:
-        article.innerHTML = ` <h3>${data.name}</h3>
-        <p>${data.price}</p>
-        <img src="${data.imageUrl}"/>`
+        let article = document.createElement('article');
+        //ajout de la class card boostrap pour contenant article:
+        article.classList.add('card')
+        //ajout données affichées pour chaque article dans la card bootstrap:
+        article.innerHTML = `
+        <a href="#" class="card-body")> 
+        <h3 class="card-title">${data.name}</h3>
+        <img src="${data.imageUrl}" class="card-img"/>
+        <p>${data.price}</p> </a>`
         let list = document.getElementById('artcicles__list');
         list.appendChild(article);
       });
@@ -32,8 +36,3 @@ let newDiv = document.createElement('div');
 getArticles()
 
 //Afficher article
-
-//      //ajout des éléments carte
-//list.innerHTML += ` <h3>${dataList[1].name}</h3>
-//<p>${dataList[1].price}</p>` ;
-//ajout prix
