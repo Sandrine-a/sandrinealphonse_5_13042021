@@ -5,13 +5,12 @@ console.log(stringSearchUrlById);
 //recuperation de l'article avec id
 const removePoint = stringSearchUrlById.substring(4);
 console.log(removePoint);
-
+ //remplacer id dans url
+ const urlArticle = "http://localhost:3000/api/cameras/" + removePoint;
+ console.log(urlArticle);
+ 
 //creation de la section
 const section = document.getElementById('article__display')
-
- //remplacer id dans url
-const urlArticle = "http://localhost:3000/api/cameras/" + removePoint;
-console.log(urlArticle);
 
 //appel get dans l'api avec l'id rajouté à l'url
 function getArticleSelected() {
@@ -24,8 +23,13 @@ function getArticleSelected() {
   })
   .then (function(data) {
     console.log(data)
+    console.log(data.lenses);
     //ajout des data dans variable articleSelected voir fichier data.js
-    articleSelected = (data);
+    articleSelected = (data);//données globales
+    //options de personnalisation creation d'une variable pour stocker
+    const opt = (data.lenses);
+    options = opt;
+    console.log(opt);
   })
   .catch(function(err) {
     console.log('une erreur détectée' + err);
@@ -40,15 +44,34 @@ setTimeout(function articleSelectedDisplay() {
   //selection de la section pour afficher article
   console.log(section);
   //ajout dans le html des données
+  //ajout des options pour select
   section.innerHTML = `
   <img  class="card-img-top" src="${articleSelected.imageUrl}"/>
   <h3 class="card-title">${articleSelected.name}</h3>
   <div class="card-text">
-    <p>${articleSelected.price} € <p>
     <p>${articleSelected.description}</p> 
+    <p>${articleSelected.price} € <p>
+    <fieldset id="lentilles">
+      <legend> Choisissez l'option de lentille </legend>
+    </fieldset>
   </div> 
   `
+      for (let option in options) {
+      //creation des champs de personnalisation de l'article dans le fieldset créé précédemment
+      const customiseSection = document.getElementById('lentilles')
+      //ajout input pour seclected option
+      const optionCustom = document.createElement('div');
+      //ajout inner HTML des champs custom:
+      optionCustom.innerHTML =
+      `
+      <input type="radio" id ="${options[option]}" name="option" value="${options[option]}">
+      <label for="${options[option]}">${options[option]}</label>
+      `
+      customiseSection.appendChild(optionCustom)
+    }
 }, 500)
 console.log(articleSelectedDisplay())
 articleSelectedDisplay()
+
+
 
