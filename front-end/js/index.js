@@ -35,7 +35,7 @@ setTimeout(function articlesListDisplay() {
     <a href="./product.html?id=${items._id}" class="card-body"> 
       <h3 class="card-title">${items.name}</h3>
       <img src="${items.imageUrl}" class="card-img"/>
-      <div>${items.price} €
+      <div>${items.price/100} €
         <p class="underlineLink">Voir cet article</p> 
       </div> 
     </a> `;

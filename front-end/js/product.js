@@ -1,3 +1,4 @@
+
 ////Construction de l'url pour fetch l'article:
 //recuperation de l'article par id dans url
 const stringSearchUrlById = window.location.search;
@@ -47,10 +48,10 @@ setTimeout(function articleSelectedDisplay() {
   //ajout des options pour select
   section.innerHTML = `
   <img  class="card-img-top" src="${articleSelected.imageUrl}"/>
-  <h3 class="card-title">${articleSelected.name}</h3>
+  <h3 class="card-title mt-3">${articleSelected.name}</h3>
   <div class="card-text">
     <p>${articleSelected.description}</p> 
-    <p>${articleSelected.price} € <p>
+    <p>${articleSelected.price/100} € <p>
     <fieldset id="lentilles">
       <legend> Choisissez l'option de lentille </legend>
     </fieldset>
@@ -61,6 +62,8 @@ setTimeout(function articleSelectedDisplay() {
       const customiseSection = document.getElementById('lentilles')
       //ajout input pour seclected option
       const optionCustom = document.createElement('div');
+      //ajout des classes pour css de la div input:
+      optionCustom.classList.add("mb-2");
       //ajout inner HTML des champs custom radio boutons:
       optionCustom.innerHTML =
       `
@@ -73,5 +76,10 @@ setTimeout(function articleSelectedDisplay() {
 console.log(articleSelectedDisplay())
 articleSelectedDisplay()
 
+//ajout produit
+//variable pour l'icone panier
+const cartIcon = document.querySelector('.header__cart--icon')
+
+//ajout de l'alerte produi ajouté sous bouton
 
 
