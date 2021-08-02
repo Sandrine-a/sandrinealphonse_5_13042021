@@ -1,18 +1,18 @@
+////Construction de l'url pour fetch l'article:
 //recuperation de l'article par id dans url
 const stringSearchUrlById = window.location.search;
 console.log(stringSearchUrlById);
-
 //recuperation de l'article avec id
 const removePoint = stringSearchUrlById.substring(4);
 console.log(removePoint);
- //remplacer id dans url
- const urlArticle = "http://localhost:3000/api/cameras/" + removePoint;
- console.log(urlArticle);
+//remplacer id dans url
+const urlArticle = "http://localhost:3000/api/cameras/" + removePoint;
+console.log(urlArticle);
  
-//creation de la section
+//creation de la section 
 const section = document.getElementById('article__display')
 
-//appel get dans l'api avec l'id rajouté à l'url
+//appel get dans l'api avec l'url construit
 function getArticleSelected() {
   fetch(urlArticle)
   .then(function (res) {
@@ -61,7 +61,7 @@ setTimeout(function articleSelectedDisplay() {
       const customiseSection = document.getElementById('lentilles')
       //ajout input pour seclected option
       const optionCustom = document.createElement('div');
-      //ajout inner HTML des champs custom:
+      //ajout inner HTML des champs custom radio boutons:
       optionCustom.innerHTML =
       `
       <input type="radio" id ="${options[option]}" name="option" value="${options[option]}">
