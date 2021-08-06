@@ -10748,6 +10748,22 @@ textarea.form-control-lg {
 .header__logo {
   height: 100px;
 }
+.header__cart {
+  position: relative;
+}
+.header__cart::before {
+  position: absolute;
+  content: "1";
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background-color: #8F5AFE;
+  color: #fff;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  opacity: 0;
+}
 
 .underlineLink {
   text-decoration: underline;
