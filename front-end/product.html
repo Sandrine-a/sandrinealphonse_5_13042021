@@ -48,6 +48,22 @@
       <div class="card-body bg-primary col-6 mx-3 mb-2" id="article__display">
       </div>
     </section>
+    <section class="row" id="total">
+        <form class="col-4 total__nombre">
+          <label for="nombre"> Nombre d'article </label>
+          <select name="nombre" id="nombre">
+            <option>-</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </form>
+        <div class="col-8">
+          <p> Prix total: <span class="total__prix text-info"> </span></p>
+        </div>
+    </section>
     <section class="row" id="ajout">
       <div class="col-12 text-center my-3">
         <input type="button" class=" text-center btn btn-primary btn-lg" id="ajout__btn" value="Ajouter au panier">
