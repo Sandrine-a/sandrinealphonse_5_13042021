@@ -10774,4 +10774,11 @@ textarea.form-control-lg {
   height: 0.2em;
 }
 
+/* #nombre {
+  &:focus:invalid {
+    border: 2px dashed red;
+  }
+
+} */
+
 /*# sourceMappingURL=styles.css.map */

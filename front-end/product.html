@@ -50,9 +50,9 @@
     </section>
     <section class="row" id="total">
         <form class="col-4 total__nombre">
-          <label for="nombre"> Nombre d'article </label>
-          <select name="nombre" id="nombre">
-            <option>-</option>
+          <label for="nombre"class="form-label" > Nombre d'article </label>
+          <select name="nombre" id="nombre" required>
+            <option value="">-</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -60,13 +60,17 @@
             <option value="5">5</option>
           </select>
         </form>
+        <div class="invalid-feedback">Example invalid select feedback</div>
         <div class="col-8">
           <p> Prix total: <span class="total__prix text-info"> </span></p>
         </div>
     </section>
     <section class="row" id="ajout">
-      <div class="col-12 text-center my-3">
+      <div class="col-sm-6 col-12 text-center my-3">
         <input type="button" class=" text-center btn btn-primary btn-lg" id="ajout__btn" value="Ajouter au panier">
+      </div>
+      <div class="col-sm-6 col-12 text-center my-3">
+        <input type="button" class=" text-center btn btn-primary btn-lg" id="ajout__btn" value="Valider la commande" disabled>
       </div>
     </section>
   </main>
