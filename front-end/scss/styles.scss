@@ -10,17 +10,19 @@
   &__cart {
     position: relative;
     &::before {
+      display: block;
       position: absolute;
-      content: '1';
-      top:0;
-      bottom: 0;
-      right: 0;
-      background-color: $secondary;
+      content: '';
+      padding-left: 8px;
+      top:-7px;
+      right: -12px;
+      background-color: $info;
       color: $white;
-      width: 20px;
-      height: 20px;
+      width: 25px;
+      height: 25px;
       border-radius: 50%;
-      opacity: 0;
+      font-weight: bold;
+      font-style: italic;
     }
   }
 }

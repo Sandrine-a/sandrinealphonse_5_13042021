@@ -33,7 +33,7 @@
                   <span class="text-dark">Accueil</span>
                 </a>
               </li>
-              <li class="header__cart nav-item">
+              <li class="nav-item header__cart">
                 <a href="#" class="nav-link">
                   <span class="text-dark">Mon pannier</span>
                   <i class="fas fa-shopping-cart fa-lg header__cart--icon text-dark"></i>
@@ -46,37 +46,14 @@
     </div>
   </header>
   <main class="container">
-    <div class="row"></div>
-      <h1 class="text-center">Produit</h1>
-    </div>
-    <section class="row" id="customisation">
-      <div class="card-body bg-primary col-6 mx-3 mb-2" id="article__display">
-      </div>
+    <section class="row">
+      <h1 class="text-center"> Pannier</h1>
     </section>
-    <section class="row" id="total">
-        <form class="col-4 total__nombre">
-          <label for="nombre"class="form-label" > Nombre d'article </label>
-          <select name="nombre" id="nombre" required>
-            <option value="">-</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </select>
-        </form>
-        <div class="invalid-feedback">Example invalid select feedback</div>
-        <div class="col-8">
-          <p> Prix total: <span class="total__prix text-info"> </span></p>
-        </div>
+    <section class="row">
+
     </section>
-    <section class="row" id="ajout">
-      <div class="col-sm-6 col-12 text-center my-3">
-        <input type="button" class=" text-center btn btn-primary btn-lg" id="ajout__btn" value="Ajouter au panier">
-      </div>
-      <div class="col-sm-6 col-12 text-center my-3">
-        <input disabled type="button" class="text-center btn btn-primary btn-lg" id="order__btn" value="Valider la commande" onclick="">
-      </div>
+    <section class="row">
+      <h2></h2>
     </section>
   </main>
   <footer class="container-fluid bg-primary">
@@ -86,7 +63,7 @@
       </div>
     </div>
   </footer>
-  <script src="./js/data.js"></script>
+  <script src="./js/panier.js"></script>
   <script src="./js/product.js"></script>
 </body>
 </html>

@@ -15,14 +15,19 @@ const section = document.getElementById('article__display')
 //ajout de l'alerte produit ajouté sous bouton
 const addButton = document.getElementById('ajout__btn');
 addButton.addEventListener('click', addArticles);
+//bouton valider la commande declaration variable:
+const validateBtn = document.getElementById("order__btn");
+window.addEventListener('storage', activateValidateBtn)/* 
+validateBtn.addEventListener('click', goPanier) */
 
 let articleSelected = {};
 
-//varaible panier 
-let cart = []
-
 //variable total
 let articleTotalSelected = {}
+
+//panier a activer à l'ajout++++++++
+const cart = window.getComputedStyle(document.querySelector('.header__cart') , "::before");
+console.log(cart.color);
 
 //Nombre d'article:
   //creation du total des articles
@@ -49,7 +54,7 @@ async function articleSelectedDisplay() {
   //ajout dans le html des données
   section.innerHTML = `
   <img  class="card-img-top" src="${articleSelected.imageUrl}"/>
-  <h3 class="card-title mt-3">${articleSelected.name}</h3>
+  <h2 class="card-title mt-3">${articleSelected.name}</h2>
   <div class="card-text">
     <p>${articleSelected.description}</p> 
     <p>${articleSelected.price/100} € <p>
@@ -75,6 +80,24 @@ async function articleSelectedDisplay() {
 }
 articleSelectedDisplay()
 
+//activation du bouton valider la commande si le pannier contient des articles:
+async function activateValidateBtn() {
+  await articleSelectedDisplay()
+  if(localStorage.getItem("article") != null) {
+  validateBtn.removeAttribute("disabled");
+  validateBtn.classList.replace("btn-primary", "btn-info");
+  }
+}
+activateValidateBtn()
+
+/* function addClassCart() {
+  cart.classList.add("text-dark")
+} */
+//ajout du nombre de panier dans l'icone panier selon storage:
+window.addEventListener('storage', () => {
+  console.log("storage issss");
+})
+
 //fonction calcul du prix total à l'event change du nombre d'article
 function getAmountArticles() {
   let articleTotal
@@ -97,80 +120,46 @@ function getAmountArticles() {
       id: articleSelected._id,
       price: articleSelected.price,
       img: articleSelected.imageUrl,
-      qty: choiceNumbers[num],
       totalprice: price
     }
   }
   articleTotalSelected = articleTotal
-  console.log(articleTotalSelected );
+  console.log(articleTotalSelected);
 }
 
 //stockage des articles dans le localStorage
 async function addArticles() {
   let choiceNumbers = numbersSection.options[numbersSection.selectedIndex].value
-  let articleStorage = localStorage.getItem('article')
   //parse article dans localStorage
   let articleInLocalStorage = JSON.parse(localStorage.getItem("article"))
-  // definition de la fonction pour ajouter un article dans le localStorage:
-  const addOne = () => {
-  articleInLocalStorage.push(articleTotalSelected)
+  //parse article deja dans local:
+
+  // definition de la fonction pour ajouter les articles dans le localStorage selon le nombre choisi:
+const addSome = () => {
+  for (let x=0; x < choiceNumbers; x++) {
+    console.log(choiceNumbers);
+    articleInLocalStorage.push(articleTotalSelected);
+  }
   //modification de l'objet en json et envoi dans key "article"
   localStorage.setItem("article", JSON.stringify(articleInLocalStorage));
+      //activation du bouton valider la commande
+      validateBtn.removeAttribute("disabled");
+      validateBtn.classList.replace("btn-primary", "btn-info")
 }
   //si selection nulle renvoie alert: border + message (to do)
  if (choiceNumbers == "") {
   numbersSection.style.border = "2px dashed red";
  }else {
    if(articleInLocalStorage) {
-    addOne()
+    console.log(articleInLocalStorage)
+    addSome()
    }
-/*    else if(articleInLocalStorage){
-    console.log('coucouc');
-   } */
    else {
-    //creation du tableau des article dans le pannier
+    //creation du tableau des articles lors du 1er ajout dans le pannier
     articleInLocalStorage = []
-    addOne()
-
-    console.log(articleInLocalStorage);
+    addSome()
    }
  }
 }
-
-
-/* /bon locaStorage sans prise en compte de la qty
-//stockage des articles dans le localStorage
-async function addArticles() {
-  let choiceNumbers = numbersSection.options[numbersSection.selectedIndex].value
-  let articleStorage = localStorage.getItem('article')
-  //parse article dans localStorage
-  let articleInLocalStorage = JSON.parse(localStorage.getItem("article"))
-
-  // definition de la fonction pour ajouter un article dans le localStorage:
-  const addOne = () => {
-  articleInLocalStorage.push(articleSelected)
-  //modification de l'objet en json et envoi dans key "article"
-  localStorage.setItem("article", JSON.stringify(articleInLocalStorage));
-}
-  //si selection nulle renvoie alert: border + message (to do)
- if (choiceNumbers == "") {
-  numbersSection.style.border = "2px dashed red";
- }else {
-   if(articleInLocalStorage) {
-    addOne()
-   }
-   else {
-    //creation du tableau des article dans le pannier
-    articleInLocalStorage = cart
-    addOne()
-
-    console.log(articleInLocalStorage);
-   }
- }
-} */
-
-
-
-
 
 
