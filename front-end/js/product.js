@@ -142,10 +142,12 @@ const addSome = () => {
   }
   //modification de l'objet en json et envoi dans key "article"
   localStorage.setItem("article", JSON.stringify(articleInLocalStorage));
-      //activation du bouton valider la commande
-      validateBtn.removeAttribute("disabled");
-      validateBtn.classList.replace("btn-primary", "btn-info")
-}
+  //activation du bouton valider la commande
+  validateBtn.removeAttribute("disabled");
+  validateBtn.classList.replace("btn-primary", "btn-info")
+  //puis actualisation de la page pour afficher le nombre d'article dans la popup panier
+  location.reload()
+  }
   //si selection nulle renvoie alert: border + message (to do)
  if (choiceNumbers == "") {
   numbersSection.style.border = "2px dashed red";
@@ -162,4 +164,30 @@ const addSome = () => {
  }
 }
 
+//affichage pop up avec articles 
+function onCartEdit() {
+  try {
+    const articleInLocalStorage = JSON.parse(localStorage.getItem("article"))
+    const cartElement = document.querySelector('.header__cart--popup')
+
+    const thereIsArticlesInStorage = articleInLocalStorage && articleInLocalStorage.length > 0;
+    const thereIsNoArticleInStorage = !thereIsArticlesInStorage;
+    const cartBadgeIsHidden = cartElement.className.includes('hide');
+    const cartBadgeIsVisible = !cartBadgeIsHidden;
+
+    if (thereIsArticlesInStorage && cartBadgeIsHidden) {
+      // On affiche la pop up avec le nombre d'articles
+      console.log("on affiche la pop up");
+      cartElement.classList.remove('hide');
+      cartElement.innerHTML = articleInLocalStorage.length;
+    } else {
+      console.log("popup non affichée");
+    }
+  }
+  catch {
+    console.log("erreur sur la pop up");
+  }
+
+}
+onCartEdit()
 
