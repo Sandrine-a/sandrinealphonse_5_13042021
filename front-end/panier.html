@@ -37,6 +37,7 @@
                 <a href="#" class="nav-link">
                   <span class="text-dark">Mon pannier</span>
                   <i class="fas fa-shopping-cart fa-lg header__cart--icon text-dark"></i>
+                  <span class="hide header__cart--popup"></span>
                 </a>
               </li>
             </ul>
@@ -49,8 +50,15 @@
     <section class="row">
       <h1 class="text-center"> Pannier</h1>
     </section>
-    <section class="row">
+    <section class="row" class="section__panier">
+      <div class="card-body bg-primary col-6 mx-3 mb-2" id="panier__display">
+        <div class="col-6" id="panier__display--price">
 
+        </div>
+        <div class="col-6">
+
+        </div>
+      </div>
     </section>
     <section class="row">
       <h2></h2>
@@ -64,6 +72,5 @@
     </div>
   </footer>
   <script src="./js/panier.js"></script>
-  <script src="./js/product.js"></script>
 </body>
 </html>
