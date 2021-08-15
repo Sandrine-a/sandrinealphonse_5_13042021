@@ -25,10 +25,6 @@ let articleSelected = {};
 //variable total
 let articleTotalSelected = {}
 
-//panier a activer à l'ajout++++++++
-const cart = window.getComputedStyle(document.querySelector('.header__cart') , "::before");
-console.log(cart.color);
-
 //Nombre d'article:
   //creation du total des articles
 const numbersSection = document.getElementById('nombre')
@@ -50,7 +46,6 @@ let getArticleSelected = fetch(urlArticle)
 
 async function articleSelectedDisplay() {
   await getArticleSelected
-  console.log(getArticleSelected);
   //ajout dans le html des données
   section.innerHTML = `
   <img  class="card-img-top" src="${articleSelected.imageUrl}"/>
@@ -101,9 +96,8 @@ window.addEventListener('storage', () => {
 //fonction calcul du prix total à l'event change du nombre d'article
 function getAmountArticles() {
   let articleTotal
-  console.log(articleSelected.price);
   //definition variable pour le nombre d'articles
-  let choiceNumbers = numbersSection.options[numbersSection.selectedIndex].value
+  let choiceNumbers = numbersSection.options[numbersSection.selectedIndex].text;
   //calcule du prix total:
   const price = articleSelected.price * choiceNumbers /100 ;
   console.log(price);
@@ -120,7 +114,8 @@ function getAmountArticles() {
       id: articleSelected._id,
       price: articleSelected.price,
       img: articleSelected.imageUrl,
-      totalprice: price
+      totalprice: price,
+/*       qty: Number(choiceNumbers[num]) */
     }
   }
   articleTotalSelected = articleTotal
@@ -129,24 +124,23 @@ function getAmountArticles() {
 
 //stockage des articles dans le localStorage
 async function addArticles() {
-  let choiceNumbers = numbersSection.options[numbersSection.selectedIndex].value
+  let choiceNumbers = numbersSection.options[numbersSection.selectedIndex].text;
+  console.log(choiceNumbers);
   //parse article dans localStorage
   let articleInLocalStorage = JSON.parse(localStorage.getItem("article"))
-  //parse article deja dans local:
-
   // definition de la fonction pour ajouter les articles dans le localStorage selon le nombre choisi:
-const addSome = () => {
-  for (let x=0; x < choiceNumbers; x++) {
-    console.log(choiceNumbers);
-    articleInLocalStorage.push(articleTotalSelected);
-  }
-  //modification de l'objet en json et envoi dans key "article"
-  localStorage.setItem("article", JSON.stringify(articleInLocalStorage));
-  //activation du bouton valider la commande
-  validateBtn.removeAttribute("disabled");
-  validateBtn.classList.replace("btn-primary", "btn-info")
-  //puis actualisation de la page pour afficher le nombre d'article dans la popup panier
-  location.reload()
+  const addSome = () => {
+    for (let x=0; x < choiceNumbers; x++) {
+      console.log(choiceNumbers);
+      articleInLocalStorage.push(articleTotalSelected);
+    }
+    //modification de l'objet en json et envoi dans key "article"
+    localStorage.setItem("article", JSON.stringify(articleInLocalStorage));
+    //activation du bouton valider la commande
+    validateBtn.removeAttribute("disabled");
+    validateBtn.classList.replace("btn-primary", "btn-info")
+    //puis actualisation de la page pour afficher le nombre d'article dans la popup panier
+    location.reload()
   }
   //si selection nulle renvoie alert: border + message (to do)
  if (choiceNumbers == "") {

@@ -1,6 +1,13 @@
 const articleInLocalStorage = JSON.parse(localStorage.getItem("article"));
 console.log(articleInLocalStorage);
 
+/* const getIdInLocalStorage = () => { 
+  for (let i=0; i < articleInLocalStorage.length; i ++) {
+    idInitial = articleInLocalStorage[i].id;
+    console.log(idInitial);
+  }
+} */
+
 //affichage pop up avec articles :
 function onCartEdit() {
   try {
@@ -24,26 +31,33 @@ function onCartEdit() {
   }
 }
 
-function articlesOnCartDisplay() {
-  const displayPrice = document.getElementById('panier__display--price')
-  const createArticle = document.createElement("article");
-  console.log("coucou panier ici");
-  console.log(articleInLocalStorage.length);
-  return articleInLocalStorage.forEach(function (id) {
-    console.log(id.price);
-    createArticle.innerHTML = 
-    `<div>${id.price}</div>
-    <div>${id.id}</div>`;
-    displayPrice.appendChild(createArticle)
-  });
+//calcule des sommes par elements dans panier:
+function articlesInCartSome() {
+  //recherche de l'id de chaquearticle en locaStorage:
+  for (let i=0; i < articleInLocalStorage.length; i ++) {
+  idInitial = articleInLocalStorage[i].id;
+  //calcule de la somme par id:
+  let some = articleInLocalStorage[i].price += articleInLocalStorage[i].price;
+    //// boucle pour faire la some par id:
+    switch(idInitial) {
+      case idInitial: 
+      console.log(some);
+      }
+    }
 }
+
+/* //affichage des articles dans le html:
+async function articlesInCartDisplay() {
+  await articlesInCartSome()
+} */
+    
 
 //init: pour affichage des produits dans onload: 
 const init = () => {
   //Affichage des produits dans popup panier:
   onCartEdit();
   //affichage des produits dans html:
-  articlesOnCartDisplay()
+  articlesInCartSome()
 }
 //fonction onload
 window.onload = init;
