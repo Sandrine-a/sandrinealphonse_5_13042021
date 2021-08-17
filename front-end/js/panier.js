@@ -9,6 +9,8 @@ const displayCart = document.getElementById("panier__display");
 const displayPrice = document.getElementById("panier__display--price")
 //Dans section controle du panier, zone total:
 const displayTotalPrice =  document.querySelector(".control__panier--total")
+//Decalaration du tableau avec id du panier
+let id =[];
 
 //affichage pop up avec articles :
 function onCartEdit() {
@@ -45,13 +47,12 @@ function articlesInCartSome() {
   sortByName
   //Récupération des id uniquement:
   //puis envoi des id en tableau
-  let id =[];
   const filterById = articleInLocalStorage.filter(function(idFilter) {
     return id.push(idFilter.id);
   })
   filterById
   console.log(filterById);
-  const products = id
+  let products = id
   //envoie objet products dans localstorage et transfomation en string:
   localStorage.setItem("products", JSON.stringify(products))
   console.log(products);
@@ -168,12 +169,11 @@ function totalOrder() {
     //affichage dans la section html:
   return displayTotalPrice.innerHTML = `${tot} €`;
 }
-
 ///////PARTIE GESTION DU FORMULAIRE:
 ///declaration des cariables réutilisables
 //formulaire:
 const contactForm = document.getElementById('needs-validation');
-//champs regex:
+//champs du formulaire déclaration des variables:
 const firstName = document.getElementById('firstName')
 const lastName = document.getElementById('lastName')
 const adress = document.getElementById('adress')
@@ -188,13 +188,14 @@ function inputCheck(event) {
     event.stopPropagation();
   }
   contactForm.classList.add('was-validated');
-  sentFormToServer()
+  sentFormToServer(event)
 };
 
 //Envoi des données et id produits dans localStorage +  envoi au server
 async function sentFormToServer(event) {
+  event.preventDefault()
   await inputCheck()
-  console.log('check formulaire');
+  let products = id
   //stockage des données dans un objet contact:
   const contact = {
     firstName: firstName.value,
@@ -212,19 +213,29 @@ async function sentFormToServer(event) {
   }
   sendFormToServer
   console.log(contact);
-  event.preventDefault()
-  event.stopPropagation();
-
- //envoi de sendTserver server:
- const promiseCom = fetch("http://localhost:3000/api/cameras/order", {
-   method: "POST",
-   headers: {
-     "Content-Type" :"application/json"
-   },
-   body:  JSON.stringify(sendFormToServer)
- });
- console.log(promiseCom);
-
+  //envoi de sendTserver server:
+  const promiseCom = fetch("http://localhost:3000/api/cameras/order", {
+    method: "POST",
+    body:  JSON.stringify(sendFormToServer),
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type' : 'application/json'
+    }
+  });
+  console.log(promiseCom);
+  console.log();
+  //voir le resultat du server response:
+  promiseCom.then(async(response) => {
+    try {
+      console.log("response is:");
+      console.log(response);
+      //reponse du server en json
+      const contenuRes = await response.json()
+      console.log(contenuRes);
+    }catch(event){
+      console.log(event);
+    }
+  })
 };
 
 /////fonctions activées
@@ -237,3 +248,4 @@ totalOrder()
 //formulaire:
 //fonction verification des champs:
 contactForm.addEventListener('submit', inputCheck)
+
