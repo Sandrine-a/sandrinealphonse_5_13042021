@@ -112,10 +112,10 @@ function getAmountArticles() {
     articleTotal = {
       name: articleSelected.name,
       id: articleSelected._id,
-      price: articleSelected.price,
+      price: articleSelected.price/100,
+/*       qty: Number(choiceNumbers[num]), */
       img: articleSelected.imageUrl,
-      totalprice: price,
-/*       qty: Number(choiceNumbers[num]) */
+      totalprice: price
     }
   }
   articleTotalSelected = articleTotal
@@ -147,7 +147,7 @@ async function addArticles() {
   numbersSection.style.border = "2px dashed red";
  }else {
    if(articleInLocalStorage) {
-    console.log(articleInLocalStorage)
+    console.log(articleInLocalStorage.id)
     addSome()
    }
    else {
@@ -162,6 +162,7 @@ async function addArticles() {
 function onCartEdit() {
   try {
     const articleInLocalStorage = JSON.parse(localStorage.getItem("article"))
+    console.log(articleInLocalStorage[0].id)
     const cartElement = document.querySelector('.header__cart--popup')
 
     const thereIsArticlesInStorage = articleInLocalStorage && articleInLocalStorage.length > 0;

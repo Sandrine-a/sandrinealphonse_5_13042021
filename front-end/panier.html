@@ -50,18 +50,101 @@
     <section class="row">
       <h1 class="text-center">Panier</h1>
     </section>
-    <section class="row" class="section__panier">
+    <section class="row recap__panier mt-5">
       <div class="card-body bg-primary col-6 mx-3 mb-2" id="panier__display">
+        <div id="panier__display__message" class="col-12 text-info hide">
+<!--           Message affiché si le panier est vide, en visibility hidden si false -->
+          <p class="text-center text-dark h2 col-12">
+            Votre panier est vide:
+            <a href="index.html" class="h4 text-info underlineLink"> Retourner à l'accueil</a>
+          </p>
+        </div>
+<!--           affichage du contenu panier -->
         <div class="col-6" id="panier__display--price">
-
         </div>
         <div class="col-6">
 
         </div>
       </div>
     </section>
-    <section class="row">
-      <h2></h2>
+    <section class="row control__panier my-5 mx-2">
+      <div class="col-6 mb-2">
+        <h2>Prix total:</h2>
+        <p class="control__panier--total col-6 p-l-3 h3"></p>
+      </div>
+      <div class="col-6 mb-2">
+        <input type="button" class="text-center btn btn-primary btn-lg" id="order__btn" value="Tout supprimer">
+      </div>
+    </section>
+    <section class="row mb-5">
+      <h2 class="col-12"> Formulaire de commande</h2>
+      <fieldset class="border">
+        <legend>Merci de compléter tous les champs ci-dessous.</legend>
+        <p>Tous les champs sont obligatoires</p>
+        <form id="needs-validation" novalidate>
+          <!-- method="POST" action="" -->
+          <div class="form-group">
+            <div class="col-md-4 mb-3">
+              <label for="firstName">Prénom</label>
+              <input type="text" class="form-control" id="firstName" placeholder="Indiquer votre prénom" pattern="[a-zA-ZÀ-ÿ-_\s\b]{1,50}" required>
+              <div class="invalid-feedback">
+                Merci d'indiquer votre prénom
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="lastName">Nom</label>
+              <input type="text" class="form-control" id="lastName" placeholder="Indiquer votre nom" pattern="[a-zA-ZÀ-ÿ-_\s\b]{1,50}" required>
+              <div class="invalid-feedback">
+                Merci d'indiquer votre prénom
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-6 mb-3">
+              <label for="adress">Adresse</label>
+              <input type="text" class="form-control" id="adress" placeholder="Indiquer le numéro et la rue" minlength="4" maxlength="70" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-md-6 mb-3">
+              <label for="city">Ville</label>
+              <input type="text" class="form-control" id="city" placeholder="Indiquer la ville" maxlength="50" required>
+              <div class="invalid-feedback">
+                Merci d'indiquer une ville valide
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="zip">Code postal</label>
+              <input type="text" pattern="[0-9]{5}" class="form-control" id="zip" placeholder="Indiquer le code postal" required>
+              <div class="invalid-feedback">
+                Merci d'indiquer un code postal sans espace.
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-6 mb-3">
+              <label for="email">Adresse e-mail: </label>
+              <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Indiquer votre mail" maxlength="50" required>
+              <small id="emailHelp" class="form-text text-muted">Merci d'indiquer un mail valide pour recevoir la confirmation </small>
+              <div class="invalid-feedback">
+                Merci d'indiquer un mail au format: @.
+              </div>
+            </div>
+          </div>
+          <div class="form-group my-2">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+              <label class="form-check-label" for="invalidCheck">
+                J'accepte les termes conditions.
+              </label>
+              <div class="invalid-feedback">
+                Validation obligatoire pour confirmer.
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-primary my-2" type="submit">Confirmation commande</button>
+        </form>
+      </fieldset>
     </section>
   </main>
   <footer class="container-fluid bg-primary">
