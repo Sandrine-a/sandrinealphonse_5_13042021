@@ -1,3 +1,5 @@
+/////// partie 1 afficahge du panier:
+///declaration des cariables réutilisables
 const articleInLocalStorage = JSON.parse(localStorage.getItem("article"));
 //bouton vider panier:
 const btnClear = document.getElementById("order__btn");
@@ -30,11 +32,9 @@ function onCartEdit() {
     console.log("erreur sur la pop up");
   }
 }
-
-
-//calcule des sommes par elements dans panier:
+//calcule des sommes par elements dans panier et envoi objet products en localstorage:
 function articlesInCartSome() {
-  //tri par nom de produit
+  //tri des articles par nom de produit
   const sortByName= articleInLocalStorage.sort((a, b) => {
     if(a.name > b.name ){
       return 1;
@@ -43,17 +43,18 @@ function articlesInCartSome() {
     }
   })
   sortByName
-/*   console.log(articleInLocalStorage);
-  console.log(sortByName); */
-  //puis calcul
-  let id;
+  //Récupération des id uniquement:
+  //puis envoi des id en tableau
+  let id =[];
   const filterById = articleInLocalStorage.filter(function(idFilter) {
-    console.log(idFilter.id);
-    return idFilter.id
+    return id.push(idFilter.id);
   })
-  id = filterById;
-/*   console.log(id); */
-
+  filterById
+  console.log(filterById);
+  const products = id
+  //envoie objet products dans localstorage et transfomation en string:
+  localStorage.setItem("products", JSON.stringify(products))
+  console.log(products);
 /*   for (let i=0; i < articleInLocalStorage.length; i ++) {
     while(articleInLocalStorage.length) {
       if(articleInLocalStorage[i].id == articleInLocalStorage[i].id) {
@@ -88,7 +89,6 @@ function articlesInCartSome() {
         displayPrice.appendChild(createArticle) 
 
       }
-    
 
 /*     const mapById = articleInLocalStorage.map(function(idFilter) {
       return idFilter.id
@@ -130,8 +130,6 @@ function articlesInCartSome() {
     }
   }
 }
-
-
 //bouton vider panier:
 async function clearCart() {
   await init()
@@ -161,7 +159,6 @@ const init = () => {
   articlesInCartSome();
   }
 }
-
 //fonction calcule du total de la commande:
 function totalOrder() {
   let tot = 0;
@@ -172,27 +169,53 @@ function totalOrder() {
   return displayTotalPrice.innerHTML = `${tot} €`;
 }
 
-
-//verification des champs input:
-/* function inputCheck() { */
-
+///////PARTIE GESTION DU FORMULAIRE:
+///declaration des cariables réutilisables
 //formulaire:
 const contactForm = document.getElementById('needs-validation');
 //champs regex:
+const firstName = document.getElementById('firstName')
+const lastName = document.getElementById('lastName')
+const adress = document.getElementById('adress')
+const city = document.getElementById('city')
 const email = document.getElementById('email') 
 const zip = document.getElementById('zip')
-const adress = document.getElementById('adress')
-const firstName = document.getElementById('firstName')
 
+//vérification des données du formulaire puis appel de la fonction envoi
 function inputCheck(event) {
-  
   if (contactForm.checkValidity() === false) {
     event.preventDefault();
     event.stopPropagation();
   }
   contactForm.classList.add('was-validated');
+  sentFormToServer()
 };
 
+//Envoi des données et id produits dans localStorage +  envoi au server
+async function sentFormToServer(event) {
+  await inputCheck()
+  console.log('check formulaire');
+  //stockage des données dans un objet contact:
+  const contact = {
+    firstName: firstName.value,
+    lastName: lastName.value,
+    address: adress.value,
+    city: city.value,
+    email:  email.value
+  }
+  //envoie objet contact dans localstorage et transfomation en string:
+  localStorage.setItem("contact", JSON.stringify(contact))
+  //Mettre les values du formulaire dans un object:
+  const sendFormToServer = {
+    contact,
+    products
+  }
+  console.log(contact);
+  event.preventDefault()
+  event.stopPropagation();
+};
+
+/////fonctions activées
 //fonction onload
 window.onload = init;
 //bouton vider panier:
@@ -200,6 +223,5 @@ btnClear.addEventListener('click', clearCart);
 //prix total
 totalOrder()
 //formulaire:
-
 //fonction verification des champs:
 contactForm.addEventListener('submit', inputCheck)
