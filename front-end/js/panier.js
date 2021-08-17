@@ -203,16 +203,28 @@ async function sentFormToServer(event) {
     city: city.value,
     email:  email.value
   }
-  //envoie objet contact dans localstorage et transfomation en string:
+  //envoi objet contact dans localstorage et transfomation en string:
   localStorage.setItem("contact", JSON.stringify(contact))
   //Mettre les values du formulaire dans un object:
   const sendFormToServer = {
     contact,
     products
   }
+  sendFormToServer
   console.log(contact);
   event.preventDefault()
   event.stopPropagation();
+
+ //envoi de sendTserver server:
+ const promiseCom = fetch("http://localhost:3000/api/cameras/order", {
+   method: "POST",
+   headers: {
+     "Content-Type" :"application/json"
+   },
+   body:  JSON.stringify(sendFormToServer)
+ });
+ console.log(promiseCom);
+
 };
 
 /////fonctions activées
