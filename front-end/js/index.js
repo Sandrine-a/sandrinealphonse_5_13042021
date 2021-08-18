@@ -1,3 +1,7 @@
+//stockage de la liste des articles:
+let articlesList = [];
+//affichage des
+const list = document.getElementById("articles__list");
 //Recuperation liste articles api Meubles en chêne http://localhost:3000/api/furniture
 function getArticles() {
   fetch("http://localhost:3000/api/cameras/")
@@ -9,7 +13,6 @@ function getArticles() {
     .then(function (articlesInTable) {
       articlesList = articlesInTable;
       //creation d'un tableau avec les articles de l'api, dans fichiers data.js
-      console.log(articlesList);
     })
     .catch(function (err) {
       console.log("une erreur détectée" + err);
@@ -21,7 +24,6 @@ function getArticles() {
 }
 getArticles();
 
-const list = document.getElementById("artcicles__list");
 
 setTimeout(function articlesListDisplay() {
   return articlesList.forEach(function (items) {
@@ -41,5 +43,5 @@ setTimeout(function articlesListDisplay() {
     </a> `;
     list.appendChild(article);
   });
-}, 500);
+}, 300);
 articlesListDisplay();

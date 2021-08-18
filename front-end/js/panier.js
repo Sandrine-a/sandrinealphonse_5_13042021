@@ -51,11 +51,9 @@ function articlesInCartSome() {
     return id.push(idFilter.id);
   })
   filterById
-  console.log(filterById);
   let products = id
   //envoie objet products dans localstorage et transfomation en string:
   localStorage.setItem("products", JSON.stringify(products))
-  console.log(products);
 /*   for (let i=0; i < articleInLocalStorage.length; i ++) {
     while(articleInLocalStorage.length) {
       if(articleInLocalStorage[i].id == articleInLocalStorage[i].id) {
@@ -212,8 +210,7 @@ async function sentFormToServer(event) {
     products
   }
   sendFormToServer
-  console.log(contact);
-  //envoi de sendTserver server:
+  //envoi de de l'objet au server avec données localstorage contact et products:
   const promiseCom = fetch("http://localhost:3000/api/cameras/order", {
     method: "POST",
     body:  JSON.stringify(sendFormToServer),
@@ -222,7 +219,6 @@ async function sentFormToServer(event) {
       'Content-Type' : 'application/json'
     }
   });
-  console.log(promiseCom);
   console.log();
   //voir le resultat du server response:
   promiseCom.then(async(response) => {
@@ -232,8 +228,32 @@ async function sentFormToServer(event) {
       //reponse du server en json
       const contenuRes = await response.json()
       console.log(contenuRes);
+      if(response.ok) {
+        console.log(`résultat de la response: ${response.ok}`)
+        //recuperation de la réponse
+        //envoiel'OrderID dans localstorage pour stockage
+        localStorage.setItem("orderId", (contenuRes.orderId))
+        //envoi vers page confirmation de commande
+        window.location = "confirmation.html";
+      } else {
+      //ajout de l'erreur Serveur si impossible de traiter la requete, innerhtml:
+      let contentError = document.createElement("div");
+      contentError.innerHTML = 
+      `<p class="text-danger h4">
+        ERREUR Serveur: ${response.status} ${response.statusText}
+      </p>
+      `
+      contactForm.appendChild(contentError);
+      }
     }catch(event){
-      console.log(event);
+      //ajout de l'erreur innerhtml:
+      let contentError = document.createElement("div");
+      contentError.innerHTML = 
+      `<p class="text-danger h4">
+        ERREUR lors de l'envoi: ${event}
+      </p>
+      `
+      contactForm.appendChild(contentError);
     }
   })
 };

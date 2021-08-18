@@ -85,9 +85,6 @@ async function activateValidateBtn() {
 }
 activateValidateBtn()
 
-/* function addClassCart() {
-  cart.classList.add("text-dark")
-} */
 //ajout du nombre de panier dans l'icone panier selon storage:
 window.addEventListener('storage', () => {
   console.log("storage issss");
@@ -172,7 +169,6 @@ function onCartEdit() {
 
     if (thereIsArticlesInStorage && cartBadgeIsHidden) {
       // On affiche la pop up avec le nombre d'articles
-      console.log("on affiche la pop up");
       cartElement.classList.remove('hide');
       cartElement.innerHTML = articleInLocalStorage.length;
     } else {
