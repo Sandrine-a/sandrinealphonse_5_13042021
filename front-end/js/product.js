@@ -52,7 +52,7 @@ async function articleSelectedDisplay() {
   <h2 class="card-title mt-3">${articleSelected.name}</h2>
   <div class="card-text">
     <p>${articleSelected.description}</p> 
-    <p>${articleSelected.price/100} € <p>
+    <p class="h6">Prix: ${articleSelected.price/100} € <p>
     <form>
       <label for="lentilles" class="col-12"> Choisissez l'option de lentille </label>
       <select name="lentilles" id="lentilles">

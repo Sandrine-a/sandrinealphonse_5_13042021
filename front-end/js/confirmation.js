@@ -15,10 +15,20 @@ function totalOrder() {
   return totalOrderField.innerHTML = `${tot} €`;
 }
 
-//fonction recuperation orderId et affichage:
+//fonction recuperation orderId et affichage si panier rempli:
 const orderId = localStorage.getItem("orderId");
 console.log(orderId);
-const displayOrderId = orderIdField.innerHTML = ` ${orderId}`;
+if(articleInLocalStorage != null) {
+  const displayOrderId = orderIdField.innerHTML = ` ${orderId}`;
+  displayOrderId
+}
 
+
+//on vide le localStorage:
+async function clearOrder() {
+  await totalOrder()
+      //on vide le localStorage
+      localStorage.clear()
+}
 // appel fonction:
-totalOrder() 
+clearOrder()
