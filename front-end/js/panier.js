@@ -1,6 +1,6 @@
 /////// partie 1 afficahge du panier:
 ///declaration des cariables réutilisables
-const articleInLocalStorage = JSON.parse(localStorage.getItem("article"));
+let articleInLocalStorage = JSON.parse(localStorage.getItem("article"));
 //bouton vider panier:
 const btnClear = document.getElementById("order__btn");
 //section qui contient le panier:
@@ -11,6 +11,9 @@ const displayPrice = document.getElementById("panier__display--price")
 const displayTotalPrice =  document.querySelector(".control__panier--total")
 //Decalaration du tableau avec id du panier
 let id =[];
+
+//recuperation des articles dans local pour mettre dans un tableau:
+
 
 //affichage pop up avec articles :
 function onCartEdit() {
@@ -36,7 +39,7 @@ function onCartEdit() {
 }
 //calcule des sommes par elements dans panier et envoi objet products en localstorage:
 function articlesInCartSome() {
-  //tri des articles par nom de produit
+  ///1- - tri des articles par nom de produit
   const sortByName= articleInLocalStorage.sort((a, b) => {
     if(a.name > b.name ){
       return 1;
@@ -45,7 +48,7 @@ function articlesInCartSome() {
     }
   })
   sortByName
-  //Récupération des id uniquement:
+  ///2- - Récupération des id uniquement:
   //puis envoi des id en tableau
   const filterById = articleInLocalStorage.filter(function(idFilter) {
     return id.push(idFilter.id);
@@ -54,6 +57,7 @@ function articlesInCartSome() {
   let products = id
   //envoie objet products dans localstorage et transfomation en string:
   localStorage.setItem("products", JSON.stringify(products))
+  
 /*   for (let i=0; i < articleInLocalStorage.length; i ++) {
     while(articleInLocalStorage.length) {
       if(articleInLocalStorage[i].id == articleInLocalStorage[i].id) {
@@ -64,8 +68,43 @@ function articlesInCartSome() {
         return some;
         break;
       }
-    } */
+    }
+  } */
 
+
+  ///3 - - creation de nouveau tableau par id nom et prix pour afficher en html:
+
+
+
+
+/*   for (let i=0; i < articleInLocalStorage.length; i ++) {
+    console.log(articleInLocalStorage.length);
+    //
+    let some =0;
+    some += articleInLocalStorage[i].price;
+    console.log(some);
+    console.log(articleInLocalStorage[i].id); */
+
+    /// 4 - - envoie dans le html prix et produits
+    console.log(articleInLocalStorage);
+  
+    for (let i=0; i < articleInLocalStorage.length; i ++) {
+    //ajout des <articles> pour article:
+    const createArticle = document.createElement("article");
+    //ajout de la class row pour style boostrap pour contenant article:
+    createArticle.classList.add("row");
+    createArticle.innerHTML = 
+    `
+      <div class="col-4">
+        <p>${articleInLocalStorage[i].name}</p>
+      </div>
+      <div class="col-4">
+        <p>  €</p>
+      </div>
+    ` 
+    displayPrice.appendChild(createArticle) 
+  }
+  
 /*   for (let i=0; i < articleInLocalStorage.length; i ++) {
     const filterById = articleInLocalStorage.filter(function(idFilter) {
       console.log(idFilter.id);
@@ -88,7 +127,7 @@ function articlesInCartSome() {
         displayPrice.appendChild(createArticle) 
 
       }
-
+    
 /*     const mapById = articleInLocalStorage.map(function(idFilter) {
       return idFilter.id
     })
@@ -104,14 +143,20 @@ function articlesInCartSome() {
     filterById
   } */
 
-  //recherche de l'id de chaqu earticle en locaStorage:
-  for (let i=0; i < articleInLocalStorage.length; i ++) {
-  idInitial = articleInLocalStorage[i].id;
+  //recherche de l'id de chaque article en locaStorage:
+ /*  for (let i=0; i < articleInLocalStorage.length; i ++) {
+  idInitial = articleInLocalStorage[].id;
+  console.log(idInitial);
   //calcule de la somme par id:
   let some = articleInLocalStorage[i].price * idInitial;
+  console.log(some);
     //// boucle pour faire la some par id:
     switch(idInitial) {
-      case idInitial: 
+      case articleInLocalStorage[i].id: 
+      
+      let byArticle = []
+      byArticle.push(articleInLocalStorage)
+      console.log(byArticle);
       //ajout des <articles> pour article:
       const createArticle = document.createElement("article");
       //ajout de la class row pour style boostrap pour contenant article:
@@ -122,13 +167,15 @@ function articlesInCartSome() {
           <p>${articleInLocalStorage[i].name}</p>
         </div>
         <div class="col-4">
-          <p>€</p>
+          <p> ${some} €</p>
         </div>
       ` 
       displayPrice.appendChild(createArticle) 
     }
-  }
+  } */
 }
+
+
 //bouton vider panier:
 async function clearCart() {
   await init()
@@ -167,6 +214,16 @@ function totalOrder() {
     //affichage dans la section html:
   return displayTotalPrice.innerHTML = `${tot} €`;
 }
+
+
+/* 
+  map(function(name) {
+  return { value: name.name };
+})
+console.log(cartDisplay); */
+
+
+
 ///////PARTIE GESTION DU FORMULAIRE:
 ///declaration des cariables réutilisables
 //formulaire:
@@ -268,4 +325,45 @@ totalOrder()
 //formulaire:
 //fonction verification des champs:
 contactForm.addEventListener('submit', inputCheck)
+
+
+//////////////
+
+///filtrer selon le prix
+
+let newTest = [];
+///
+const cartDisplay = articleInLocalStorage.filter(function(price) { 
+const priceX = articleInLocalStorage[0].name; 
+if(price.name == priceX) {
+  return newTest.push(price)
+  } else {
+  return false
+  }
+})
+console.log(cartDisplay);
+console.log(newTest);
+///total par article
+/* const totalByArt = newTest.reduce((total, price) => {
+  return total + price.price;
+}, 0)
+console.log(totalByArt);
+ */
+/* const nameT = articleInLocalStorage[0].name;
+const cartDisplay = articleInLocalStorage.filter(function (name) {  
+  return name.name == nameT
+})
+console.log(cartDisplay); */
+
+//total du tableau par article:
+
+
+
+//creation du nouveau tableau article avec qty
+/* const articleWithQty = articleInLocalStorage.map(function addQty(article) {
+  return article
+}) */
+
+///creation d'un total :
+
 

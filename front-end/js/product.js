@@ -37,7 +37,6 @@ let getArticleSelected = fetch(urlArticle)
 })
 .then(function(responseJson) {
   articleSelected = responseJson
-  console.log(responseJson);
 })
 .catch(function(err) {
   //ajout message d'erreur dans la page:
@@ -85,11 +84,6 @@ async function activateValidateBtn() {
 }
 activateValidateBtn()
 
-//ajout du nombre de panier dans l'icone panier selon storage:
-window.addEventListener('storage', () => {
-  console.log("storage issss");
-})
-
 //fonction calcul du prix total à l'event change du nombre d'article
 function getAmountArticles() {
   let articleTotal
@@ -110,9 +104,8 @@ function getAmountArticles() {
       name: articleSelected.name,
       id: articleSelected._id,
       price: articleSelected.price/100,
-/*       qty: Number(choiceNumbers[num]), */
+      qty:Number(choiceNumbers),
       img: articleSelected.imageUrl,
-      totalprice: price
     }
   }
   articleTotalSelected = articleTotal
@@ -120,17 +113,13 @@ function getAmountArticles() {
 }
 
 //stockage des articles dans le localStorage
-async function addArticles() {
+async function addArticles(e) {
   let choiceNumbers = numbersSection.options[numbersSection.selectedIndex].text;
-  console.log(choiceNumbers);
   //parse article dans localStorage
   let articleInLocalStorage = JSON.parse(localStorage.getItem("article"))
   // definition de la fonction pour ajouter les articles dans le localStorage selon le nombre choisi:
   const addSome = () => {
-    for (let x=0; x < choiceNumbers; x++) {
-      console.log(choiceNumbers);
-      articleInLocalStorage.push(articleTotalSelected);
-    }
+    articleInLocalStorage.push(articleTotalSelected);
     //modification de l'objet en json et envoi dans key "article"
     localStorage.setItem("article", JSON.stringify(articleInLocalStorage));
     //activation du bouton valider la commande
@@ -140,20 +129,42 @@ async function addArticles() {
     location.reload()
   }
   //si selection nulle renvoie alert: border + message (to do)
- if (choiceNumbers == "") {
-  numbersSection.style.border = "2px dashed red";
- }else {
-   if(articleInLocalStorage) {
-    console.log(articleInLocalStorage.id)
-    addSome()
-   }
-   else {
-    //creation du tableau des articles lors du 1er ajout dans le pannier
-    articleInLocalStorage = []
-    addSome()
-   }
- }
+ if (choiceNumbers == 0) {
+   console.log(choiceNumbers);
+    numbersSection.style.border = "2px dashed red";
+ } else {
+  if(articleInLocalStorage) {
+    let newArticle = true;
+      //verification si l'article est déja présent dans le panier:
+      for (let i = 0; i < articleInLocalStorage.length; i++) {
+      ///si article existe deja dans panier:
+        const product = articleInLocalStorage[i];
+        if (product.id === removePoint) {
+          console.log("ajout ajout");
+          //on pass new article à la valeur false
+          newArticle = false;
+          //on ajoute la quantité d'articles
+          product.qty += Number(choiceNumbers);
+          localStorage.setItem("article", JSON.stringify(articleInLocalStorage))
+          //puis actualisation de la page pour afficher le nombre d'article dans la popup panier
+          location.reload()
+          break
+        }       
+      }
+      ///si article dont l'id est différent de ceux deja dans le panier:
+      if(newArticle) {
+        addSome()
+      } 
+  } else {
+  //creation du tableau des articles lors du 1er ajout dans le pannier
+  articleInLocalStorage = []
+  addSome()
+  }
+  e.preventDefault()
+  e.stopPropagation()
 }
+}
+
 
 //affichage pop up avec articles 
 function onCartEdit() {
