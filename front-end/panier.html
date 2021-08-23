@@ -48,23 +48,37 @@
   </header>
   <main class="container">
     <section class="row">
-      <h1 class="text-center">Panier</h1>
+      <h1 class="text-center mt-3">Panier</h1>
     </section>
-    <section class="row recap__panier mt-5">
-      <div class="card-body bg-primary col-6 mx-3 mb-2" id="panier__display">
-        <div id="panier__display__message" class="col-12 text-info hide">
-<!--           Message affiché si le panier est vide, en visibility hidden si false -->
-          <p class="text-center text-dark h2 col-12">
-            Votre panier est vide:
+    <section class="row recap__panier mt-3">
+      <div class="card-body bg-primary mx-3 mb-2" id="panier__display">
+        <div id="panier__display__message" class="col-12 mt-1 text-info text-center hide">
+          <!--           Message affiché si le panier est vide, en visibility hidden si false -->
+          <p class="text-center text-dark h3 col-12">
+            Votre panier est vide: 
             <a href="index.html" class="h4 text-info underlineLink"> Retourner à l'accueil</a>
           </p>
-        </div>
-<!--           affichage du contenu panier -->
-        <div class="col-6" id="panier__display--price">
-        </div>
-        <div class="col-6">
 
         </div>
+        <!--           affichage du contenu panier -->
+        <div id="panier__display--content">
+          <div class="row fw-bold mb-2 border-bottom border-dark border-3 h5" id="tab__header">
+            <div class="col-3">
+              <p>Nom</p>
+            </div>
+            <div class="col-3">
+              <p> Prix </p>
+            </div>
+            <div class="col-3">
+              <p> Quantité </p>
+            </div>
+            <div class="col-3">
+              <p> Retirer </p>
+            </div>
+          </div>
+        </div>
+        </div>
+
       </div>
     </section>
     <section class="row control__panier my-5 mx-2">
