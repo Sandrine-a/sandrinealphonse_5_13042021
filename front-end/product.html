@@ -47,12 +47,12 @@
     </div>
   </header>
   <main class="container">
-    <div class="row my-4"></div>
+    <div class="row my-3">
       <h1 class="text-center">Produit</h1>
     </div>
     <section class="row my-2" id="customisation">
-      <div class="card-body bg-primary col-6 mx-3 mb-2" id="article__display">
-      </div>
+      <article class="card-body bg-primary col-6 mx-3 mb-2" id="article__display">
+      </article>
     </section>
     <section class="row mt-3 mx-1" id="total">
         <form class="col-5 total__nombre">
@@ -71,16 +71,21 @@
           <p class="h5"> Prix total: <span class="total__prix text-info"> </span></p>
         </div>
     </section>
-    <section class="row" id="ajout">
+    <section class="row my-md-3" id="ajout">
       <div class="col-sm-6 col-12 text-center my-3">
-        <input type="button" class=" text-center btn btn-primary btn-lg" id="ajout__btn" value="Ajouter au panier">
+        <input type="button" class="text-center btn btn-primary btn-lg " id="ajout__btn" value="Ajouter au panier">
       </div>
       <div class="col-sm-6 col-12 text-center my-3">
         <input disabled type="button" class="text-center btn btn-primary btn-lg" id="order__btn" value="Valider la commande" onclick="location.href='panier.html'">
       </div>
     </section>
+    <section class="row my-5">
+      <div class="col-12 text-center">
+        <button type="button" class="col-md-6 btn btn-primary btn-lg btn-block bg-light border border-light text-white" onclick="location.href='index.html'">Continuer les achats</button>
+      </div>
+    </section>
   </main>
-  <footer class="container-fluid bg-primary">
+  <footer class="container-fluid bg-primary mt-5">
     <div class="container">
       <div class="row text-center">
         <p class="my-5">Contact</p>

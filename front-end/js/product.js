@@ -165,12 +165,11 @@ async function addArticles(e) {
 }
 }
 
-
 //affichage pop up avec articles 
 function onCartEdit() {
   try {
     const articleInLocalStorage = JSON.parse(localStorage.getItem("article"))
-    console.log(articleInLocalStorage[0].id)
+    console.log(articleInLocalStorage[0].qty)
     const cartElement = document.querySelector('.header__cart--popup')
 
     const thereIsArticlesInStorage = articleInLocalStorage && articleInLocalStorage.length > 0;
@@ -179,9 +178,16 @@ function onCartEdit() {
     const cartBadgeIsVisible = !cartBadgeIsHidden;
 
     if (thereIsArticlesInStorage && cartBadgeIsHidden) {
-      // On affiche la pop up avec le nombre d'articles
+      /// On affiche la pop up avec le nombre d'articles
+      console.log(articleInLocalStorage);
+      //-calcule des articles dans le panier:
+      let totalArticles = 0;
+      for (let qt in articleInLocalStorage) {
+        totalArticles += articleInLocalStorage[qt].qty;
+      }
+      //-insertion dans le html:
       cartElement.classList.remove('hide');
-      cartElement.innerHTML = articleInLocalStorage.length;
+      cartElement.innerHTML = totalArticles;
     } else {
       console.log("popup non affichée");
     }

@@ -1,47 +1,50 @@
 //stockage de la liste des articles:
 let articlesList = [];
-//affichage des
+///section d'affichage des cartes article:
 const list = document.getElementById("articles__list");
-//Recuperation liste articles api Meubles en chêne http://localhost:3000/api/furniture
-function getArticles() {
-  fetch("http://localhost:3000/api/cameras/")
+
+///Recuperation liste articles cameras http://localhost:3000/api/cameras/":
+async function getArticles() {
+  await fetch("http://localhost:3000/api/cameras/")
     .then(function (res) {
       if (res.ok) {
         return res.json();
       }
     })
     .then(function (articlesInTable) {
-      articlesList = articlesInTable;
       //creation d'un tableau avec les articles de l'api, dans fichiers data.js
+      articlesList = articlesInTable;
     })
     .catch(function (err) {
       console.log("une erreur détectée" + err);
       //ajout message d'erreur dans la page:
       list.innerHTML =
-        ` <p class="col text-info">Une erreur est survenue, nous vous prions de bien vouloir réessayer dans un instant.</P>` +
-        err;
+        ` <p class="col text-info h5">Une erreur est survenue, nous vous prions de bien vouloir réessayer dans un instant.</P>
+        <p class="h5">${err}<p>`
+        
     });
-}
-getArticles();
+};
 
-
-setTimeout(function articlesListDisplay() {
+///affichage inner HTML des articles dans des cartes:
+async function articlesListDisplay() {
+  await getArticles();
   return articlesList.forEach(function (items) {
-    console.log(items);
     //ajout des <div> pour article:
     const article = document.createElement("article");
     //ajout de la class card boostrap pour contenant article:
-    article.classList.add("card", "col-md-5", "mx-2", "my-2");
+    article.classList.add("card", "col-md-5", "mx-1", "my-2", "shadow-lg");
     //ajout données affichées pour chaque article dans la card bootstrap:
     article.innerHTML = `
-    <a href="./product.html?id=${items._id}" class="card-body"> 
-      <h3 class="card-title">${items.name}</h3>
+    <a href="./product.html?id=${items._id}" class="card-body text-white text-md-left"> 
+      <h3 class="card-title text-center">${items.name}</h3>
       <img src="${items.imageUrl}" class="card-img"/>
-      <div class="my-2">${items.price/100} €
-        <p class="underlineLink">Voir cet article</p> 
+      <div class="mt-3 h5">${items.price/100} €
+        <p class="mt-1">Voir cet article...</p> 
       </div> 
     </a> `;
     list.appendChild(article);
   });
-}, 300);
+};
+
+getArticles();
 articlesListDisplay();

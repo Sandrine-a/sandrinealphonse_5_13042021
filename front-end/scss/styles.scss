@@ -11,18 +11,17 @@
     position: relative;
     &--popup {
       position: absolute;
-      padding-left: 6px;
-      top:-7px;
-      right: -12px;
-      background-color: $info;
-      color: $white;
-      width: 23px;
-      height: 23px;
+      padding-left: 5px;
+      top: -6px;
+      right: -11px;
+      background-color: #DF861D;
+      color: #fff;
+      width: 25px;
+      height: 25px;
       border-radius: 50%;
       font-weight: bold;
       font-style: italic;
       font-size: 1.1rem;
-
     }
   }
 }
@@ -38,10 +37,11 @@
   height: 0.2em;
 }
 
-/* #nombre {
-  &:focus:invalid {
-    border: 2px dashed red;
-  }
+#nombre {
+ cursor: pointer;
+}
+.btn-info {
+  color: $white;
+}
 
-} */
  
