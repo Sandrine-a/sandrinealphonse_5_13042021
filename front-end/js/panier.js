@@ -157,18 +157,19 @@ function changeQuantity() {
           //Nombre maximum: 20cam
           if (item.qty > 20) {
             //demande de confirmation de suppression:
-            window.alert(`Vous avez atteint le maximum de ${item.name}`)
+/*             window.alert(`Vous avez atteint le maximum de ${item.name}`) */
             //Bloquage du bouton +:
-            btnPlus[i].setAttribute("disabled","disabled")
+
+            console.log(btnPlus[i]);
+            btnPlus[i].setAttribute("disabled", " ")
           } else {
+            
             btnPlus[i].removeAttribute("disabled")
           }
-          //ON MAJ la qty correspondant dans le localStorage
-          localStorage.setItem("article", JSON.stringify(articleInLocalStorage))
         }
       })
       //on MAJ la page;
-      location.reload();
+/*       location.reload(); */
     })
   };
 };
