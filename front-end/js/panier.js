@@ -212,7 +212,7 @@ const init = () => {
 function totalOrder() {
   let tot = 0;
   for (let p in articleInLocalStorage) {
-    tot += articleInLocalStorage[p].price;
+    tot += articleInLocalStorage[p].price * articleInLocalStorage[p].qty;
   }
     //affichage dans la section html:
   return displayTotalPrice.innerHTML = `${tot} €`;
@@ -316,8 +316,8 @@ async function sentFormToServer(event) {
 window.onload = init;
 //bouton vider panier:
 btnClear.addEventListener('click', clearCart);
-  //prix total
-  totalOrder();
+//prix total
+totalOrder();
 
 //formulaire:
 //fonction verification des champs:
