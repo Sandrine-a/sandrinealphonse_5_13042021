@@ -135,7 +135,6 @@ function changeQuantity() {
           localStorage.setItem("article", JSON.stringify(articleInLocalStorage));
         };
       }) 
-      totalOrder()
       //on MAJ la page;
       location.reload();
     })
@@ -166,7 +165,6 @@ function changeQuantity() {
           }
           //ON MAJ la qty correspondant dans le localStorage
           localStorage.setItem("article", JSON.stringify(articleInLocalStorage))
-          totalOrder() 
         }
       })
       //on MAJ la page;
@@ -205,18 +203,16 @@ const init = () => {
   } else {
   //affichage des produits dans le html si panier rempli:
   articlesInCartSome();
-  //prix total
-  totalOrder();
   //Gere la quantité:
   changeQuantity()
 }
 }
 
 //fonction calcule du total de la commande:
-function totalOrder(article) {
+function totalOrder() {
   let tot = 0;
   for (let p in articleInLocalStorage) {
-    tot = articleInLocalStorage[p].price * articleInLocalStorage[p].qty;
+    tot += articleInLocalStorage[p].price;
   }
     //affichage dans la section html:
   return displayTotalPrice.innerHTML = `${tot} €`;
@@ -320,6 +316,8 @@ async function sentFormToServer(event) {
 window.onload = init;
 //bouton vider panier:
 btnClear.addEventListener('click', clearCart);
+  //prix total
+  totalOrder();
 
 //formulaire:
 //fonction verification des champs:
