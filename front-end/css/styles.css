@@ -10745,6 +10745,9 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+.header__container {
+  flex-wrap: wrap;
+}
 .header__logo {
   height: 100px;
 }

@@ -1,3 +1,4 @@
+ ///// - Variables globales - /////
 
 ////Construction de l'url pour fetch l'article:
 //recuperation de l'article par id dans url
@@ -6,43 +7,46 @@ const stringSearchUrlById = window.location.search;
 const removePoint = stringSearchUrlById.substring(4);
 //remplacer id dans url
 const urlArticle = "http://localhost:3000/api/cameras/" + removePoint;
- 
 //creation de la section 
 const section = document.getElementById('article__display')
-
-
-// BOUTON //
+// BOUTONS //
 //ajout de l'alerte produit ajouté sous bouton
 const addButton = document.getElementById('ajout__btn');
 addButton.addEventListener('click', addArticles);
 //bouton valider la commande declaration variable:
 const validateBtn = document.getElementById("order__btn");
-window.addEventListener('storage', activateValidateBtn)/* 
-validateBtn.addEventListener('click', goPanier) */
+window.addEventListener('storage', activateValidateBtn);
 
+//VARIABLES DE STOCKAGES //
 let articleSelected = {};
-
-//variable total
-let articleTotalSelected = {}
-
+//variable total:
+let articleTotalSelected = {};
 //Nombre d'article:
-  //creation du total des articles
+//creation du total des articles
 const numbersSection = document.getElementById('nombre')
-numbersSection.addEventListener('change', getAmountArticles)
+numbersSection.addEventListener('change', getAmountArticles);
 
-//appel get dans l'api avec l'url construit
+ ///// - Déclarations des fonctions - /////
+//appel get dans l'api avec l'url construit:
 let getArticleSelected = fetch(urlArticle)
-.then(function (res) {
-  return res.json();
-})
-.then(function(responseJson) {
-  articleSelected = responseJson
-})
-.catch(function(err) {
-  //ajout message d'erreur dans la page:
-  section.innerHTML = ` <p class="col text-info">Une erreur est survenue, nous vous prions de bien vouloir réessayer dans un instant.</P>` + err;
-})
+  .then(function (res) {
+    return res.json();
+  })
+  .then(function(responseJson) {
+    articleSelected = responseJson
+  })
+  .catch(function(err) {
+    //ajout message d'erreur dans la page:
+    section.innerHTML = ` <p class="col text-info">Une erreur est survenue, nous vous prions de bien vouloir réessayer dans un instant.</P>` + err;
+  });
 
+activateValidateBtn();
+
+onCartEdit();
+
+ ///// - Fonctions - /////
+
+///Affichage des articles dans le html:
 async function articleSelectedDisplay() {
   await getArticleSelected
   //ajout dans le html des données
@@ -71,8 +75,7 @@ async function articleSelectedDisplay() {
     `
     customiseSection.appendChild(optionCustom)
     }
-}
-articleSelectedDisplay()
+};
 
 //activation du bouton valider la commande si le pannier contient des articles:
 async function activateValidateBtn() {
@@ -81,8 +84,7 @@ async function activateValidateBtn() {
   validateBtn.removeAttribute("disabled");
   validateBtn.classList.replace("btn-primary", "btn-info");
   }
-}
-activateValidateBtn()
+};
 
 //fonction calcul du prix total à l'event change du nombre d'article
 function getAmountArticles() {
@@ -110,7 +112,7 @@ function getAmountArticles() {
   }
   articleTotalSelected = articleTotal
   console.log(articleTotalSelected);
-}
+};
 
 //stockage des articles dans le localStorage
 async function addArticles(e) {
@@ -163,39 +165,35 @@ async function addArticles(e) {
   e.preventDefault()
   e.stopPropagation()
 }
-}
+};
 
 //affichage pop up avec articles 
 function onCartEdit() {
   try {
-    const articleInLocalStorage = JSON.parse(localStorage.getItem("article"))
-    console.log(articleInLocalStorage[0].qty)
-    const cartElement = document.querySelector('.header__cart--popup')
-
+    //Récupération de la key article dans le localStorage:
+    const articleInLocalStorage = JSON.parse(localStorage.getItem("article"));
+    //Récupération de l'élément html:
+    const cartElement = document.querySelector('.header__cart--popup');
+    //Vérification s'il y a des articles présents dans le local storage:
     const thereIsArticlesInStorage = articleInLocalStorage && articleInLocalStorage.length > 0;
-    const thereIsNoArticleInStorage = !thereIsArticlesInStorage;
     const cartBadgeIsHidden = cartElement.className.includes('hide');
-    const cartBadgeIsVisible = !cartBadgeIsHidden;
 
     if (thereIsArticlesInStorage && cartBadgeIsHidden) {
       /// On affiche la pop up avec le nombre d'articles
-      console.log(articleInLocalStorage);
-      //-calcule des articles dans le panier:
+      //-Calcul du nombre d'articles dans le panier:
       let totalArticles = 0;
       for (let qt in articleInLocalStorage) {
         totalArticles += articleInLocalStorage[qt].qty;
       }
-      //-insertion dans le html:
+      //-Insertion dans le html:
       cartElement.classList.remove('hide');
       cartElement.innerHTML = totalArticles;
-    } else {
-      console.log("popup non affichée");
     }
   }
   catch {
-    console.log("erreur sur la pop up");
+    console.error("Erreur sur l'affichage de la pop up")
   }
 
-}
-onCartEdit()
+};
+
 

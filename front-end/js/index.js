@@ -1,8 +1,13 @@
+///// - Variables globales - /////
 //stockage de la liste des articles:
 let articlesList = [];
 ///section d'affichage des cartes article:
 const list = document.getElementById("articles__list");
 
+///// - Fonctions - /////
+onCartEdit()
+
+///// - Déclarations des fonctions - /////
 ///Recuperation liste articles cameras http://localhost:3000/api/cameras/":
 async function getArticles() {
   await fetch("http://localhost:3000/api/cameras/")
@@ -16,7 +21,6 @@ async function getArticles() {
       articlesList = articlesInTable;
     })
     .catch(function (err) {
-      console.log("une erreur détectée" + err);
       //ajout message d'erreur dans la page:
       list.innerHTML =
         ` <p class="col text-info h5">Une erreur est survenue, nous vous prions de bien vouloir réessayer dans un instant.</P>
@@ -24,7 +28,6 @@ async function getArticles() {
         
     });
 };
-
 ///affichage inner HTML des articles dans des cartes:
 async function articlesListDisplay() {
   await getArticles();
@@ -53,40 +56,30 @@ async function onCartEdit() {
   await articlesListDisplay();
 
   try {
-    const articleInLocalStorage = JSON.parse(localStorage.getItem("article"))
-    console.log(articleInLocalStorage[0].qty)
-    const cartElement = document.querySelector('.header__cart--popup')
-
+    //Récupération de la key article dans le localStorage:
+    const articleInLocalStorage = JSON.parse(localStorage.getItem("article"));
+    //Récupération de l'élément html:
+    const cartElement = document.querySelector('.header__cart--popup');
+    //Vérification s'il y a des articles présents dans le local storage:
     const thereIsArticlesInStorage = articleInLocalStorage && articleInLocalStorage.length > 0;
-    const thereIsNoArticleInStorage = !thereIsArticlesInStorage;
     const cartBadgeIsHidden = cartElement.className.includes('hide');
-    const cartBadgeIsVisible = !cartBadgeIsHidden;
 
     if (thereIsArticlesInStorage && cartBadgeIsHidden) {
       /// On affiche la pop up avec le nombre d'articles
-      console.log(articleInLocalStorage);
-      //-calcule des articles dans le panier:
+      //-Calcul du nombre d'articles dans le panier:
       let totalArticles = 0;
       for (let qt in articleInLocalStorage) {
         totalArticles += articleInLocalStorage[qt].qty;
       }
-      //-insertion dans le html:
+      //-Insertion dans le html:
       cartElement.classList.remove('hide');
       cartElement.innerHTML = totalArticles;
-    } else {
-      console.log("popup non affichée");
     }
   }
   catch {
-    console.log("erreur sur la pop up");
+    console.error("Erreur sur l'affichage de la pop up")
   }
-
 }
-
-
-getArticles();
-articlesListDisplay();
-onCartEdit()
 
 
 
