@@ -1,16 +1,24 @@
-///// - Variables globales - /////
+///// - VARIABLES GLOBALES - /////
+
 //stockage de la liste des articles:
 let articlesList = [];
 ///section d'affichage des cartes article:
 const list = document.getElementById("articles__list");
 
-///// - Fonctions - /////
+///// - FONCTIONS - /////
+
+///Fonctions from app.js: pop-up panier si rempli:
+//affichage pop up avec articles 
 onCartEdit()
 
-///// - Déclarations des fonctions - /////
-///Recuperation liste articles cameras http://localhost:3000/api/cameras/":
+///Fonctions de la page:
+articlesListDisplay() 
+
+///// - DECLARATION DES FONCTIONS - /////
+
+///Recuperation liste articles cameras via urlApi from app.js":
 async function getArticles() {
-  await fetch("http://localhost:3000/api/cameras/")
+  await fetch(urlApi)
     .then(function (res) {
       if (res.ok) {
         return res.json();
@@ -49,37 +57,7 @@ async function articlesListDisplay() {
   });
 };
 
-///pop-up panier si rempli:
-//affichage pop up avec articles 
-async function onCartEdit() {
-  await getArticles();
-  await articlesListDisplay();
 
-  try {
-    //Récupération de la key article dans le localStorage:
-    const articleInLocalStorage = JSON.parse(localStorage.getItem("article"));
-    //Récupération de l'élément html:
-    const cartElement = document.querySelector('.header__cart--popup');
-    //Vérification s'il y a des articles présents dans le local storage:
-    const thereIsArticlesInStorage = articleInLocalStorage && articleInLocalStorage.length > 0;
-    const cartBadgeIsHidden = cartElement.className.includes('hide');
-
-    if (thereIsArticlesInStorage && cartBadgeIsHidden) {
-      /// On affiche la pop up avec le nombre d'articles
-      //-Calcul du nombre d'articles dans le panier:
-      let totalArticles = 0;
-      for (let qt in articleInLocalStorage) {
-        totalArticles += articleInLocalStorage[qt].qty;
-      }
-      //-Insertion dans le html:
-      cartElement.classList.remove('hide');
-      cartElement.innerHTML = totalArticles;
-    }
-  }
-  catch {
-    console.error("Erreur sur l'affichage de la pop up")
-  }
-}
 
 
 

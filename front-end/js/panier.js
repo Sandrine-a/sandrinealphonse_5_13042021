@@ -1,7 +1,6 @@
-/////// partie 1 afficahge du panier:
-///declaration des cariables réutilisables
-let articleInLocalStorage = JSON.parse(localStorage.getItem("article"));
+///// - VARIABLES GLOBALES - /////
 
+///Partie afficahge du panier:
 //bouton vider panier:
 const btnClear = document.getElementById("order__btn");
 //section qui contient le panier:
@@ -15,33 +14,30 @@ const displayTotalPrice =  document.querySelector(".control__panier--total")
 //Decalaration du tableau avec id du panier
 let id =[];
 
-//affichage pop up avec articles 
-function onCartEdit() {
-  try {
-    //Récupération de la key article dans le localStorage:
-    const articleInLocalStorage = JSON.parse(localStorage.getItem("article"));
-    //Récupération de l'élément html:
-    const cartElement = document.querySelector('.header__cart--popup');
-    //Vérification s'il y a des articles présents dans le local storage:
-    const thereIsArticlesInStorage = articleInLocalStorage && articleInLocalStorage.length > 0;
-    const cartBadgeIsHidden = cartElement.className.includes('hide');
+////Partie gestion du forumlaire:
+//Formulaire:
+const contactForm = document.getElementById('needs-validation');
+//champs du formulaire déclaration des variables:
+const firstName = document.getElementById('firstName')
+const lastName = document.getElementById('lastName')
+const adress = document.getElementById('adress')
+const city = document.getElementById('city')
+const email = document.getElementById('email') 
+const zip = document.getElementById('zip')
 
-    if (thereIsArticlesInStorage && cartBadgeIsHidden) {
-      /// On affiche la pop up avec le nombre d'articles
-      //-Calcul du nombre d'articles dans le panier:
-      let totalArticles = 0;
-      for (let qt in articleInLocalStorage) {
-        totalArticles += articleInLocalStorage[qt].qty;
-      }
-      //-Insertion dans le html:
-      cartElement.classList.remove('hide');
-      cartElement.innerHTML = totalArticles;
-    }
-  }
-  catch {
-    console.error("Erreur sur l'affichage de la pop up")
-  }
-}
+///// - FONCTIONS - /////
+
+//bouton vider panier:
+btnClear.addEventListener('click', clearCart);
+//prix total
+totalOrder();
+
+//formulaire:
+//fonction verification des champs:
+contactForm.addEventListener('submit', inputCheck);
+
+
+ ///// - DECLARATION DES FONCTIONS - /////
 
 ///calcule des sommes par elements dans panier et envoi objet products en localstorage:
 function articlesInCartSome() {
@@ -82,25 +78,48 @@ function articlesInCartSome() {
         </div>
         <div class="col-3" id="cart__item--btn">
           <input type="button" class="btn btn-light" id="btn__moins" value="-">
-          <input type="button" class="btn btn-light" id="btn__plus" value="+"> 
+          <input type="button" class="btn btn-light" id="btn__plus" value="+" disabled> 
         </div>
       ` 
       displayPrice.appendChild(createArticle)     
   }
-}
+};
+
+///Vérouillage du bouton s'il y a 20 articles identiques:
+function isQuantityMaxlenght() {
+  //On vérifie la quantité max
+  articleInLocalStorage.forEach(el => {
+    let btnPlus = document.querySelectorAll("#btn__plus");
+    let isQtyMax = true;
+    for (let b = 0; b < btnPlus.length; b ++) {
+      //variable pour récupérer le nom de l'article liée au bouton:
+      const nameForBtnPlusContainer = btnPlus[b].parentElement.parentElement.firstElementChild.firstElementChild.textContent;
+      if(el.qty >= 20) {
+        console.log("max reach");
+        return isQtyMax;
+      } else {
+        if (el.name === nameForBtnPlusContainer) {
+        isQtyMax = false;
+        btnPlus[b].removeAttribute("disabled");
+        }
+      }
+    }
+  }) 
+};
+
 
 ///Changement des quantités par articles:
 function changeQuantity() {
   //////// gestion quantités:
   ///Recuperation des elements html boutons - et +:
   const btnMoins = document.querySelectorAll("#btn__moins");
-  const btnPlus = document.querySelectorAll("#btn__plus");
+  let btnPlus = document.querySelectorAll("#btn__plus");
   
   ///fonction pour le bouton moins:
   for (let i = 0; i < btnMoins.length; i ++) {
     //variable pour récupérer le nom de l'article liée au bouton:
     const nameForBtnContainer = btnMoins[i].parentElement.parentElement.firstElementChild.firstElementChild.textContent;
-    console.log(nameForBtnContainer);
+
     ///Evenement au click sur le bouton ciblé:
     btnMoins[i].addEventListener('click', function decreaseQty(event) {
       event.stopPropagation();
@@ -109,14 +128,10 @@ function changeQuantity() {
         if(item.name === nameForBtnContainer) {
           //On retire un produit:
           item.qty --;
-          console.log(item.name);
-          console.log(item.qty);
           //suppression de la ligne si valeur =0:
           if (item.qty === 0) {
             //demande de confirmation de suppression:
             if(confirm(`Confirmez-vous la suppresion du ${item.name} ?`)) {
-              console.log(articleInLocalStorage);
-              console.log(articleInLocalStorage.length);
               //Si articles totalement suppprimés, suppression du localStorage par filter:
               articleInLocalStorage = articleInLocalStorage.filter((el)=> {
                 console.log(el.qty == 0);
@@ -141,7 +156,7 @@ function changeQuantity() {
   for (let i = 0; i < btnPlus.length; i ++) {
     //variable pour récupérer le nom de l'article liée au bouton:
     const nameForBtnContainer = btnMoins[i].parentElement.parentElement.firstElementChild.firstElementChild.textContent;
-    console.log(nameForBtnContainer);
+
     btnPlus[i].addEventListener('click', function increaseQty(event) {
       event.stopPropagation();
       //On récupère la quantité dans le HTML et met à jour:
@@ -149,24 +164,21 @@ function changeQuantity() {
         if(item.name === nameForBtnContainer) {
           //On retire ajoute produit:
           item.qty ++;
-          console.log(item.name);
-          console.log(item.qty);
           //Nombre maximum: 20cam
-          if (item.qty > 20) {
+          if (item.qty >= 20) {
             //demande de confirmation de suppression:
-/*             window.alert(`Vous avez atteint le maximum de ${item.name}`) */
-            //Bloquage du bouton +:
-
-            console.log(btnPlus[i]);
-            btnPlus[i].setAttribute("disabled", " ")
+            window.alert(`Vous avez atteint le maximum de ${item.name}`)
+            //Bloquage du bouton + par fonction isQuantityMaxLenght
           } else {
             
             btnPlus[i].removeAttribute("disabled")
           }
+          //mise à jour du localStorage
+          localStorage.setItem("article", JSON.stringify(articleInLocalStorage));
         }
       })
       //on MAJ la page;
-/*       location.reload(); */
+      location.reload();
     })
   };
 };
@@ -188,23 +200,25 @@ async function clearCart(e) {
 
 //init: pour affichage des produits dans onload: 
 const init = () => {
-  //Affichage des produits dans popup panier:
-  onCartEdit();
   //affichage du contenu de la page en cas de panier vide: 
   if(articleInLocalStorage == null || articleInLocalStorage.length == 0 ) {
     //si le panier est vidé individuellement par les btn -:
     localStorage.clear()
-    //affichage du message si panier vide:
+    //Message affiché si panier vide:
     const messageCartEmpty = document.getElementById('panier__display__message');
     tabHeaderCart.classList.add('hide');
     messageCartEmpty.classList.remove('hide');
   } else {
+  //Affichage des produits dans popup panier:
+  onCartEdit();
   //affichage des produits dans le html si panier rempli:
   articlesInCartSome();
+
+  isQuantityMaxlenght();
   //Gere la quantité:
-  changeQuantity()
+  changeQuantity();
 }
-}
+};
 
 //fonction calcule du total de la commande:
 function totalOrder() {
@@ -214,20 +228,7 @@ function totalOrder() {
   }
     //affichage dans la section html:
   return displayTotalPrice.innerHTML = `${tot} €`;
-}
-
-
-///////PARTIE GESTION DU FORMULAIRE:
-///declaration des cariables réutilisables
-//formulaire:
-const contactForm = document.getElementById('needs-validation');
-//champs du formulaire déclaration des variables:
-const firstName = document.getElementById('firstName')
-const lastName = document.getElementById('lastName')
-const adress = document.getElementById('adress')
-const city = document.getElementById('city')
-const email = document.getElementById('email') 
-const zip = document.getElementById('zip')
+};
 
 //vérification des données du formulaire puis appel de la fonction envoi
 function inputCheck(event) {
@@ -243,7 +244,7 @@ function inputCheck(event) {
 async function sentFormToServer(event) {
   event.preventDefault()
   await inputCheck()
-  let products = id
+  let products = id;
   //stockage des données dans un objet contact:
   const contact = {
     firstName: firstName.value,
@@ -253,7 +254,7 @@ async function sentFormToServer(event) {
     email:  email.value
   }
   //envoi objet contact dans localstorage et transfomation en string:
-  localStorage.setItem("contact", JSON.stringify(contact))
+  localStorage.setItem("contact", JSON.stringify(contact));
   //Mettre les values du formulaire dans un object:
   const sendFormToServer = {
     contact,
@@ -273,8 +274,6 @@ async function sentFormToServer(event) {
   //voir le resultat du server response:
   promiseCom.then(async(response) => {
     try {
-      console.log("response is:");
-      console.log(response);
       //reponse du server en json
       const contenuRes = await response.json()
       console.log(contenuRes);
@@ -308,19 +307,7 @@ async function sentFormToServer(event) {
   })
 };
 
-
-/////fonctions activées
 //fonction onload
 window.onload = init;
-//bouton vider panier:
-btnClear.addEventListener('click', clearCart);
-//prix total
-totalOrder();
-
-//formulaire:
-//fonction verification des champs:
-contactForm.addEventListener('submit', inputCheck)
-
-console.log(articleInLocalStorage);
 
 

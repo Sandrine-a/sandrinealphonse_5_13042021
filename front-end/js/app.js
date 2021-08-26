@@ -1,5 +1,15 @@
-/// -Fonctions relatives au menu:
+/* Fichier js regroupant les variables et fonctions réutilisées */
 
+///// - Variables générales - /////
+//url de l'api cameras:
+const urlApi = "http://localhost:3000/api/cameras/";
+
+//Parse article dans localStorage
+let articleInLocalStorage = JSON.parse(localStorage.getItem("article"))
+
+ ///// - Déclarations des fonctions - /////
+
+/// -Fonctions relatives au menu:
 //Affichae de la popup avec nombre d'articles dans le nav du header:
 function onCartEdit() {
   try {

@@ -1,4 +1,4 @@
- ///// - Variables globales - /////
+///// - VARIABLES GLOBALES - /////
 
 ////Construction de l'url pour fetch l'article:
 //recuperation de l'article par id dans url
@@ -6,10 +6,12 @@ const stringSearchUrlById = window.location.search;
 //recuperation de l'article avec id
 const removePoint = stringSearchUrlById.substring(4);
 //remplacer id dans url
-const urlArticle = "http://localhost:3000/api/cameras/" + removePoint;
+const urlArticle = urlApi + removePoint;
 //creation de la section 
-const section = document.getElementById('article__display')
-// BOUTONS //
+const section = document.getElementById('article__display');
+//section d'ajout d'article:
+const sectionAdd = document.getElementById('ajout');
+// Boutons//
 //ajout de l'alerte produit ajouté sous bouton
 const addButton = document.getElementById('ajout__btn');
 addButton.addEventListener('click', addArticles);
@@ -17,7 +19,7 @@ addButton.addEventListener('click', addArticles);
 const validateBtn = document.getElementById("order__btn");
 window.addEventListener('storage', activateValidateBtn);
 
-//VARIABLES DE STOCKAGES //
+//Variables de stockage //
 let articleSelected = {};
 //variable total:
 let articleTotalSelected = {};
@@ -26,8 +28,7 @@ let articleTotalSelected = {};
 const numbersSection = document.getElementById('nombre')
 numbersSection.addEventListener('change', getAmountArticles);
 
- ///// - Déclarations des fonctions - /////
-//appel get dans l'api avec l'url construit:
+/// - Appel get dans l'api avec l'url construit:
 let getArticleSelected = fetch(urlArticle)
   .then(function (res) {
     return res.json();
@@ -40,11 +41,20 @@ let getArticleSelected = fetch(urlArticle)
     section.innerHTML = ` <p class="col text-info">Une erreur est survenue, nous vous prions de bien vouloir réessayer dans un instant.</P>` + err;
   });
 
+
+///// - FONCTIONS - /////
+
+///Fonctions from app.js: pop-up panier si rempli:
+//affichage pop up avec articles 
+onCartEdit();  
+
+///Fonctions de la page:
 activateValidateBtn();
 
-onCartEdit();
+isMaxAmount() 
 
- ///// - Fonctions - /////
+
+ ///// - DECLARATION DES FONCTIONS - /////
 
 ///Affichage des articles dans le html:
 async function articleSelectedDisplay() {
@@ -117,8 +127,6 @@ function getAmountArticles() {
 //stockage des articles dans le localStorage
 async function addArticles(e) {
   let choiceNumbers = numbersSection.options[numbersSection.selectedIndex].text;
-  //parse article dans localStorage
-  let articleInLocalStorage = JSON.parse(localStorage.getItem("article"))
   // definition de la fonction pour ajouter les articles dans le localStorage selon le nombre choisi:
   const addSome = () => {
     articleInLocalStorage.push(articleTotalSelected);
@@ -158,42 +166,34 @@ async function addArticles(e) {
         addSome()
       } 
   } else {
-  //creation du tableau des articles lors du 1er ajout dans le pannier
-  articleInLocalStorage = []
-  addSome()
+    //creation du tableau des articles lors du 1er ajout dans le pannier
+    articleInLocalStorage = []
+    addSome()
   }
   e.preventDefault()
   e.stopPropagation()
 }
 };
 
-//affichage pop up avec articles 
-function onCartEdit() {
-  try {
-    //Récupération de la key article dans le localStorage:
-    const articleInLocalStorage = JSON.parse(localStorage.getItem("article"));
-    //Récupération de l'élément html:
-    const cartElement = document.querySelector('.header__cart--popup');
-    //Vérification s'il y a des articles présents dans le local storage:
-    const thereIsArticlesInStorage = articleInLocalStorage && articleInLocalStorage.length > 0;
-    const cartBadgeIsHidden = cartElement.className.includes('hide');
+//desactivation du bouton ajout si max 20:
+function isMaxAmount() {
+  articleInLocalStorage.forEach(el => {
+    if (el.id === removePoint && el.qty >= 20 ) {
+      //verrouillage du bouton ajouter:
+      addButton.setAttribute('disabled', 'disabled');
+      //Message d'info sur le nombre max atteint:
+      let maxAmountMessage = document.createElement('div');
+      maxAmountMessage.classList.add('col-12','text-center','h3', 'text-info')
+      maxAmountMessage.innerHTML = `
+      <p> Vous avez atteint le nombre maximum d'appareils ${el.name} dans votre panier </p>
+      <p class="h4"> Merci de valider votre commande, ou de continuer vos achats. </p>
+      `
+      sectionAdd.appendChild(maxAmountMessage)
+    }   
+  });
+}
 
-    if (thereIsArticlesInStorage && cartBadgeIsHidden) {
-      /// On affiche la pop up avec le nombre d'articles
-      //-Calcul du nombre d'articles dans le panier:
-      let totalArticles = 0;
-      for (let qt in articleInLocalStorage) {
-        totalArticles += articleInLocalStorage[qt].qty;
-      }
-      //-Insertion dans le html:
-      cartElement.classList.remove('hide');
-      cartElement.innerHTML = totalArticles;
-    }
-  }
-  catch {
-    console.error("Erreur sur l'affichage de la pop up")
-  }
 
-};
+
 
 
