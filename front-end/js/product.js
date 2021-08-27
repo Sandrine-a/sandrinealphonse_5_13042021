@@ -18,7 +18,6 @@ addButton.addEventListener('click', addArticles);
 //bouton valider la commande declaration variable:
 const validateBtn = document.getElementById("order__btn");
 window.addEventListener('storage', activateValidateBtn);
-
 //Variables de stockage //
 let articleSelected = {};
 //variable total:
@@ -47,21 +46,19 @@ let getArticleSelected = fetch(urlArticle)
 ///Fonctions from app.js: pop-up panier si rempli:
 //affichage pop up avec articles 
 onCartEdit();  
-
 ///Fonctions de la page:
 activateValidateBtn();
-
 isMaxAmount() 
 
 
- ///// - DECLARATION DES FONCTIONS - /////
+///// - DECLARATION DES FONCTIONS - /////
 
 ///Affichage des articles dans le html:
 async function articleSelectedDisplay() {
   await getArticleSelected
   //ajout dans le html des données
   section.innerHTML = `
-  <img  class="card-img-top" src="${articleSelected.imageUrl}"/>
+  <img class="card-img-top pt-2" src="${articleSelected.imageUrl}"/>
   <h2 class="card-title mt-3">${articleSelected.name}</h2>
   <div class="card-text">
     <p>${articleSelected.description}</p> 
@@ -86,7 +83,6 @@ async function articleSelectedDisplay() {
     customiseSection.appendChild(optionCustom)
     }
 };
-
 //activation du bouton valider la commande si le pannier contient des articles:
 async function activateValidateBtn() {
   await articleSelectedDisplay()
@@ -95,7 +91,6 @@ async function activateValidateBtn() {
   validateBtn.classList.replace("btn-primary", "btn-info");
   }
 };
-
 //fonction calcul du prix total à l'event change du nombre d'article
 function getAmountArticles() {
   let articleTotal
@@ -103,7 +98,6 @@ function getAmountArticles() {
   let choiceNumbers = numbersSection.options[numbersSection.selectedIndex].text;
   //calcule du prix total:
   const price = articleSelected.price * choiceNumbers /100 ;
-  console.log(price);
   //ajout dans <span> du prix total innerHTML:
   const resultTotal = document.querySelector('.total__prix')
   resultTotal.innerHTML = 
@@ -120,10 +114,8 @@ function getAmountArticles() {
       img: articleSelected.imageUrl,
     }
   }
-  articleTotalSelected = articleTotal
-  console.log(articleTotalSelected);
+  articleTotalSelected = articleTotal;
 };
-
 //stockage des articles dans le localStorage
 async function addArticles(e) {
   let choiceNumbers = numbersSection.options[numbersSection.selectedIndex].text;
@@ -136,62 +128,61 @@ async function addArticles(e) {
     validateBtn.removeAttribute("disabled");
     validateBtn.classList.replace("btn-primary", "btn-info")
     //puis actualisation de la page pour afficher le nombre d'article dans la popup panier
-    location.reload()
+    location.reload();
   }
   //si selection nulle renvoie alert: border + message (to do)
  if (choiceNumbers == 0) {
-   console.log(choiceNumbers);
     numbersSection.style.border = "2px dashed red";
  } else {
   if(articleInLocalStorage) {
     let newArticle = true;
       //verification si l'article est déja présent dans le panier:
       for (let i = 0; i < articleInLocalStorage.length; i++) {
-      ///si article existe deja dans panier:
+      ///si article dans l'url existe deja dans panier:
         const product = articleInLocalStorage[i];
         if (product.id === removePoint) {
-          console.log("ajout ajout");
           //on pass new article à la valeur false
           newArticle = false;
           //on ajoute la quantité d'articles
           product.qty += Number(choiceNumbers);
           localStorage.setItem("article", JSON.stringify(articleInLocalStorage))
           //puis actualisation de la page pour afficher le nombre d'article dans la popup panier
-          location.reload()
+          location.reload();
           break
         }       
       }
       ///si article dont l'id est différent de ceux deja dans le panier:
       if(newArticle) {
-        addSome()
+        addSome();
       } 
   } else {
     //creation du tableau des articles lors du 1er ajout dans le pannier
     articleInLocalStorage = []
-    addSome()
+    addSome();
   }
   e.preventDefault()
   e.stopPropagation()
 }
 };
-
 //desactivation du bouton ajout si max 20:
 function isMaxAmount() {
-  articleInLocalStorage.forEach(el => {
-    if (el.id === removePoint && el.qty >= 20 ) {
-      //verrouillage du bouton ajouter:
-      addButton.setAttribute('disabled', 'disabled');
-      //Message d'info sur le nombre max atteint:
-      let maxAmountMessage = document.createElement('div');
-      maxAmountMessage.classList.add('col-12','text-center','h3', 'text-info')
-      maxAmountMessage.innerHTML = `
-      <p> Vous avez atteint le nombre maximum d'appareils ${el.name} dans votre panier </p>
-      <p class="h4"> Merci de valider votre commande, ou de continuer vos achats. </p>
-      `
-      sectionAdd.appendChild(maxAmountMessage)
-    }   
-  });
-}
+  if (articleInLocalStorage) {
+    articleInLocalStorage.forEach(el => {
+      if (el.id === removePoint && el.qty >= 20 ) {
+        //verrouillage du bouton ajouter:
+        addButton.setAttribute('disabled', 'disabled');
+        //Message d'info sur le nombre max atteint:
+        let maxAmountMessage = document.createElement('div');
+        maxAmountMessage.classList.add('col-12','text-center','h3', 'text-info')
+        maxAmountMessage.innerHTML = `
+        <p> Vous avez atteint le nombre maximum d'appareils ${el.name} dans votre panier </p>
+        <p class="h4"> Merci de valider votre commande, ou de continuer vos achats. </p>
+        `
+        sectionAdd.appendChild(maxAmountMessage)
+      }   
+    })
+  }
+};
 
 
 

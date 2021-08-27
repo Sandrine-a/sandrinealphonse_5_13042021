@@ -12,20 +12,15 @@
 <body>
   <header class="container-fluid bg-primary">
     <div class="container header">
-      <div class="row header__container">
-        <div class="col-9">
+      <div class="row">
+        <div class="col-6 col-md-8">
           <a href="./index.html">
-          <img src="images/logo_orinoco_full.png" alt="Logo boutique Orinoco" class="header__logo" />
-        </a>
+            <img src="images/logo_orinoco_full.png" alt="Logo boutique Orinoco" class="header__logo col-12 col-md-3"/>
+          </a>
         </div>
-        <nav class="col-3 my-3 navbar navbar-expand-md">
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon bg-dark mb-1"></span>
-            <span class="navbar-toggler-icon bg-dark mb-1"></span>
-            <span class="navbar-toggler-icon bg-dark"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav" >
-            <ul class="navbar-nav">
+        <nav class="col-6 col-md-3 my-2 navbar">
+          <div clas="row">
+            <ul class="navbar-nav col-12">
               <li class="nav-item">
                 <a href="index.html" class="nav-link">
                   <span class="text-dark">Accueil</span>
@@ -45,7 +40,7 @@
     </div>
   </header>
   <main class="container">
-    <h1 class="row mx-auto mt-3">Bienvenue sur Orinoco</h1>
+    <h1 class="row text-center mx-auto mt-3">Bienvenue sur Orinoco</h1>
     <div class="row text-center">
       <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Optio recusandae distinctio dolorum iusto esse vel dolores cupiditate animi accusamus! Ipsa magni totam velit earum quibusdam libero inventore placeat accusamus repellat?.</p>
     </div>
@@ -55,9 +50,44 @@
     </article>
   </main>
   <footer class="container-fluid bg-primary mt-5">
-    <div class="container">
-      <div class="row text-center">
-        <p class="my-5">Contact</p>
+    <div class="container pt-2 pb-5">
+      <div class="row">
+        <div class="col-md-4 mt-3">
+          <p class="h5 pl-2">A propros</p>
+          <ul class="list-unstyled">
+            <li class="my-2">
+              <a href="#" class="text-dark">Le groupe</a>
+            </li>
+            <li class="my-2">
+              <a href="#" class="text-dark">Nos partenaires</a>
+            </li>
+            <li class="my-2">
+              <a href="#" class="text-dark">Nous rejoindre</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-4 mt-3">
+          <p class="h5 pl-2">Nos services</p>
+          <ul class="list-unstyled">
+            <li class="my-2">
+              <a href="#" class="text-dark">SAV</a>
+            </li>
+            <li class="my-2">
+              <a href="#" class="text-dark">Q & A</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-4 mt-3">
+          <p class="h5 pl-2">Restez informés</p>
+          <ul class="list-unstyled">
+            <li class="my-2">
+              <a href="#" class="text-dark">Inscription</a>
+            </li>
+            <li class="my-2">
+              <a href="#" class="text-dark">Reseaux sociaux</a>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </footer>

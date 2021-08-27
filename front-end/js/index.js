@@ -9,10 +9,10 @@ const list = document.getElementById("articles__list");
 
 ///Fonctions from app.js: pop-up panier si rempli:
 //affichage pop up avec articles 
-onCartEdit()
+onCartEdit();
 
 ///Fonctions de la page:
-articlesListDisplay() 
+articlesListDisplay();
 
 ///// - DECLARATION DES FONCTIONS - /////
 
@@ -43,7 +43,7 @@ async function articlesListDisplay() {
     //ajout des <div> pour article:
     const article = document.createElement("article");
     //ajout de la class card boostrap pour contenant article:
-    article.classList.add("card", "col-md-5", "mx-1", "my-2", "shadow-lg");
+    article.classList.add("card", "col-md-5", "mx-2", "mx-md-3", "my-3", "shadow-lg", "rounded-0");
     //ajout données affichées pour chaque article dans la card bootstrap:
     article.innerHTML = `
     <a href="./product.html?id=${items._id}" class="card-body text-white text-md-left"> 

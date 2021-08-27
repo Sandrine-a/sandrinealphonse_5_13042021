@@ -1,20 +1,21 @@
 /* Fichier js regroupant les variables et fonctions réutilisées */
 
-///// - Variables générales - /////
+///// - VARIABLES GLOBALES - /////
+
 //url de l'api cameras:
 const urlApi = "http://localhost:3000/api/cameras/";
+//Parse article dans localStorage:
+let articleInLocalStorage = JSON.parse(localStorage.getItem("article"));
+//affichage du prix total Pages Panier et confirmation:
+//Dans section controle du panier, zone total:
+const displayTotalPrice =  document.querySelector(".control__panier--total");
 
-//Parse article dans localStorage
-let articleInLocalStorage = JSON.parse(localStorage.getItem("article"))
 
- ///// - Déclarations des fonctions - /////
-
-/// -Fonctions relatives au menu:
-//Affichae de la popup avec nombre d'articles dans le nav du header:
+ ///// - DECLARATION DES FONCTIONS - /////
+ 
+//Affichage de la popup avec nombre d'articles dans le nav du header:
 function onCartEdit() {
   try {
-    //Récupération de la key article dans le localStorage:
-    const articleInLocalStorage = JSON.parse(localStorage.getItem("article"));
     //Récupération de l'élément html:
     const cartElement = document.querySelector('.header__cart--popup');
     //Vérification s'il y a des articles présents dans le local storage:
@@ -36,5 +37,14 @@ function onCartEdit() {
   catch {
     console.error("Erreur sur l'affichage de la pop up")
   }
+};
+///- Fonction calcul du total de la commande:
+function totalOrder() {
+  let tot = 0;
+  for (let p in articleInLocalStorage) {
+    tot += articleInLocalStorage[p].price * articleInLocalStorage[p].qty;
+  }
+    //affichage dans la section html:
+  return displayTotalPrice.innerHTML = `${tot} €`;
 };
 

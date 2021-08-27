@@ -9,13 +9,11 @@ const displayCart = document.getElementById("panier__display");
 const tabHeaderCart = document.getElementById("tab__header")
 //dans section panier affichage des articles et tarifs:
 const displayPrice = document.getElementById("panier__display--content")
-//Dans section controle du panier, zone total:
-const displayTotalPrice =  document.querySelector(".control__panier--total")
 //Decalaration du tableau avec id du panier
 let id =[];
-
 ////Partie gestion du forumlaire:
 //Formulaire:
+const formSection = document.querySelector('.form__section')
 const contactForm = document.getElementById('needs-validation');
 //champs du formulaire déclaration des variables:
 const firstName = document.getElementById('firstName')
@@ -27,17 +25,14 @@ const zip = document.getElementById('zip')
 
 ///// - FONCTIONS - /////
 
-//bouton vider panier:
+//Bouton vider panier:
 btnClear.addEventListener('click', clearCart);
-//prix total
+//Prix total
 totalOrder();
-
-//formulaire:
-//fonction verification des champs:
+//Fonction verification des champs du form:
 contactForm.addEventListener('submit', inputCheck);
 
-
- ///// - DECLARATION DES FONCTIONS - /////
+///// - DECLARATION DES FONCTIONS - /////
 
 ///calcule des sommes par elements dans panier et envoi objet products en localstorage:
 function articlesInCartSome() {
@@ -64,7 +59,7 @@ function articlesInCartSome() {
       //ajout des <articles> pour article:
       const createArticle = document.createElement("article");
       //ajout de la class row pour style boostrap pour contenant article:
-      createArticle.classList.add("row", "cart__item");
+      createArticle.classList.add("row", "cart__item","mt-2");
       createArticle.innerHTML = 
       `
         <div class="col-3 cart__item--name">
@@ -77,14 +72,13 @@ function articlesInCartSome() {
           <p class="item__qty"> ${articleInLocalStorage[i].qty} </p>
         </div>
         <div class="col-3" id="cart__item--btn">
-          <input type="button" class="btn btn-light" id="btn__moins" value="-">
-          <input type="button" class="btn btn-light" id="btn__plus" value="+" disabled> 
+          <input type="button" class="btn btn-light btn-sm" id="btn__moins" value="-">
+          <input type="button" class="btn btn-light btn-sm" id="btn__plus" value="+" disabled> 
         </div>
       ` 
       displayPrice.appendChild(createArticle)     
   }
 };
-
 ///Vérouillage du bouton s'il y a 20 articles identiques:
 function isQuantityMaxlenght() {
   //On vérifie la quantité max
@@ -106,11 +100,9 @@ function isQuantityMaxlenght() {
     }
   }) 
 };
-
-
-///Changement des quantités par articles:
+///Modifier les quantités par articles:
 function changeQuantity() {
-  //////// gestion quantités:
+  //////// Sélecteurs html quantités:
   ///Recuperation des elements html boutons - et +:
   const btnMoins = document.querySelectorAll("#btn__moins");
   let btnPlus = document.querySelectorAll("#btn__plus");
@@ -146,10 +138,10 @@ function changeQuantity() {
           //mise à jour du localStorage
           localStorage.setItem("article", JSON.stringify(articleInLocalStorage));
         };
-      }) 
+      });
       //on MAJ la page;
       location.reload();
-    })
+    });
   };
 
    ///fonction pour le bouton Plus
@@ -183,31 +175,30 @@ function changeQuantity() {
   };
 };
 ///bouton vider panier:
-async function clearCart(e) {
+function clearCart(e) {
   e.stopPropagation()
-  await init()
-  console.log('pour vider');
   //popup pour confirmer le panier vide:
-  if (window.confirm("Souhaitez-vous supprimer tous les éléments de votre panier?")) {
+  if (window.confirm("Souhaitez-vous vider entièrement votre panier?")) {
     //on vide le localStorage
     localStorage.clear()
-  } else {
-    console.log("pannier non confirmé vidage");
-  };
-  //puis actualisation de la page pour afficher le panier vide
-  location.reload()
-}
-
+    //puis actualisation de la page pour afficher le panier vide
+    location.reload()
+  }
+};
 //init: pour affichage des produits dans onload: 
 const init = () => {
   //affichage du contenu de la page en cas de panier vide: 
   if(articleInLocalStorage == null || articleInLocalStorage.length == 0 ) {
     //si le panier est vidé individuellement par les btn -:
-    localStorage.clear()
+    localStorage.clear();
     //Message affiché si panier vide:
     const messageCartEmpty = document.getElementById('panier__display__message');
     tabHeaderCart.classList.add('hide');
     messageCartEmpty.classList.remove('hide');
+    //Désactivation du bouton vider
+    btnClear.setAttribute('disabled', 'disabled');
+    //Formulaire en display none:
+    formSection.style.display = "none";
   } else {
   //Affichage des produits dans popup panier:
   onCartEdit();
@@ -219,17 +210,6 @@ const init = () => {
   changeQuantity();
 }
 };
-
-//fonction calcule du total de la commande:
-function totalOrder() {
-  let tot = 0;
-  for (let p in articleInLocalStorage) {
-    tot += articleInLocalStorage[p].price * articleInLocalStorage[p].qty;
-  }
-    //affichage dans la section html:
-  return displayTotalPrice.innerHTML = `${tot} €`;
-};
-
 //vérification des données du formulaire puis appel de la fonction envoi
 function inputCheck(event) {
   if (contactForm.checkValidity() === false) {
@@ -239,7 +219,6 @@ function inputCheck(event) {
   contactForm.classList.add('was-validated');
   sentFormToServer(event)
 };
-
 //Envoi des données et id produits dans localStorage +  envoi au server
 async function sentFormToServer(event) {
   event.preventDefault()
@@ -306,8 +285,8 @@ async function sentFormToServer(event) {
     }
   })
 };
-
 //fonction onload
 window.onload = init;
+
 
 
