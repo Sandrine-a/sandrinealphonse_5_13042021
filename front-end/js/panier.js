@@ -1,21 +1,23 @@
-///// - VARIABLES GLOBALES - /////
+///// - - VARIABLES GLOBALES - - /////
 
 ///Partie afficahge du panier:
-//bouton vider panier:
+//Bouton vider panier:
 const btnClear = document.getElementById("order__btn");
-//section qui contient le panier:
+//Section qui contient le panier:
 const displayCart = document.getElementById("panier__display");
-//dans section panier titre du tableau:
-const tabHeaderCart = document.getElementById("tab__header")
-//dans section panier affichage des articles et tarifs:
-const displayPrice = document.getElementById("panier__display--content")
+//Dans section panier titre du tableau:
+const tabHeaderCart = document.getElementById("tab__header");
+//Dans section panier affichage des articles et tarifs:
+const displayPrice = document.getElementById("panier__display--content");
+//Section qui contient le message en cas de panier vide:
+const messageCartEmpty = document.getElementById("panier__display__message");
 //Decalaration du tableau avec id du panier
 let id =[];
 ////Partie gestion du forumlaire:
 //Formulaire:
 const formSection = document.querySelector('.form__section')
 const contactForm = document.getElementById('needs-validation');
-//champs du formulaire déclaration des variables:
+//Champs du formulaire déclaration des variables:
 const firstName = document.getElementById('firstName')
 const lastName = document.getElementById('lastName')
 const adress = document.getElementById('adress')
@@ -23,18 +25,20 @@ const city = document.getElementById('city')
 const email = document.getElementById('email') 
 const zip = document.getElementById('zip')
 
-///// - FONCTIONS - /////
+///// - - FONCTIONS - - /////
 
-//Bouton vider panier:
+//Evenement au click pour vider le panier:
 btnClear.addEventListener('click', clearCart);
-//Prix total
+
+//Prix total:
 totalOrder();
-//Fonction verification des champs du form:
+
+//Evenement au submit du form pour vérification des champs remplis ou non:
 contactForm.addEventListener('submit', inputCheck);
 
-///// - DECLARATION DES FONCTIONS - /////
+///// - - DECLARATION DES FONCTIONS - - /////
 
-///calcule des sommes par elements dans panier et envoi objet products en localstorage:
+///Calcul des sommes par elements dans panier et envoi objet products en localstorage:
 function articlesInCartSome() {
   ///1- - tri des articles par nom de produit
   const sortByName= articleInLocalStorage.sort((a, b) => {
@@ -79,6 +83,7 @@ function articlesInCartSome() {
       displayPrice.appendChild(createArticle)     
   }
 };
+
 ///Vérouillage du bouton s'il y a 20 articles identiques:
 function isQuantityMaxlenght() {
   //On vérifie la quantité max
@@ -100,6 +105,7 @@ function isQuantityMaxlenght() {
     }
   }) 
 };
+
 ///Modifier les quantités par articles:
 function changeQuantity() {
   //////// Sélecteurs html quantités:
@@ -174,6 +180,7 @@ function changeQuantity() {
     })
   };
 };
+
 ///bouton vider panier:
 function clearCart(e) {
   e.stopPropagation()
@@ -185,6 +192,7 @@ function clearCart(e) {
     location.reload()
   }
 };
+
 //init: pour affichage des produits dans onload: 
 const init = () => {
   //affichage du contenu de la page en cas de panier vide: 
@@ -192,7 +200,6 @@ const init = () => {
     //si le panier est vidé individuellement par les btn -:
     localStorage.clear();
     //Message affiché si panier vide:
-    const messageCartEmpty = document.getElementById('panier__display__message');
     tabHeaderCart.classList.add('hide');
     messageCartEmpty.classList.remove('hide');
     //Désactivation du bouton vider
@@ -200,17 +207,17 @@ const init = () => {
     //Formulaire en display none:
     formSection.style.display = "none";
   } else {
-  //Affichage des produits dans popup panier:
   onCartEdit();
-  //affichage des produits dans le html si panier rempli:
+
   articlesInCartSome();
 
   isQuantityMaxlenght();
-  //Gere la quantité:
+  
   changeQuantity();
 }
 };
-//vérification des données du formulaire puis appel de la fonction envoi
+
+//Vérification des données du formulaire puis appel de la fonction envoi
 function inputCheck(event) {
   if (contactForm.checkValidity() === false) {
     event.preventDefault();
@@ -285,6 +292,7 @@ async function sentFormToServer(event) {
     }
   })
 };
+
 //fonction onload
 window.onload = init;
 

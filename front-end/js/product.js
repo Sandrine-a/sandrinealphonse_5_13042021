@@ -1,31 +1,33 @@
-///// - VARIABLES GLOBALES - /////
+///// - - VARIABLES GLOBALES - - /////
 
 ////Construction de l'url pour fetch l'article:
-//recuperation de l'article par id dans url
+//Recherche de l'id de l'article dans l'url
 const stringSearchUrlById = window.location.search;
-//recuperation de l'article avec id
+//Récuperation de l'article avec id
 const removePoint = stringSearchUrlById.substring(4);
-//remplacer id dans url
+//Aajout de l'id à l'url de l'api (enregistrée en constnte dans le fichier app.js)
 const urlArticle = urlApi + removePoint;
-//creation de la section 
+//Création de la section 
 const section = document.getElementById('article__display');
-//section d'ajout d'article:
+//Section d'ajout d'article:
 const sectionAdd = document.getElementById('ajout');
-// Boutons//
-//ajout de l'alerte produit ajouté sous bouton
-const addButton = document.getElementById('ajout__btn');
-addButton.addEventListener('click', addArticles);
-//bouton valider la commande declaration variable:
-const validateBtn = document.getElementById("order__btn");
-window.addEventListener('storage', activateValidateBtn);
-//Variables de stockage //
+// Variables de stockage //
 let articleSelected = {};
 //variable total:
 let articleTotalSelected = {};
+// Boutons + eventListenner //
+//Ajout de l'évènement sur le click d'ajout au panier:
+const addButton = document.getElementById('ajout__btn');
+addButton.addEventListener('click', addArticles);
+//Bouton valider la commande declaration variable au remplissage du localStroage:
+const validateBtn = document.getElementById("order__btn");
+window.addEventListener('storage', activateValidateBtn);
 //Nombre d'article:
-//creation du total des articles
+//Création du total du nombre d'articles
 const numbersSection = document.getElementById('nombre')
 numbersSection.addEventListener('change', getAmountArticles);
+
+///// -  - FONCTIONS - - /////
 
 /// - Appel get dans l'api avec l'url construit:
 let getArticleSelected = fetch(urlArticle)
@@ -33,25 +35,24 @@ let getArticleSelected = fetch(urlArticle)
     return res.json();
   })
   .then(function(responseJson) {
-    articleSelected = responseJson
+    articleSelected = responseJson;
   })
   .catch(function(err) {
     //ajout message d'erreur dans la page:
     section.innerHTML = ` <p class="col text-info">Une erreur est survenue, nous vous prions de bien vouloir réessayer dans un instant.</P>` + err;
   });
 
-
-///// - FONCTIONS - /////
-
 ///Fonctions from app.js: pop-up panier si rempli:
 //affichage pop up avec articles 
 onCartEdit();  
+
 ///Fonctions de la page:
 activateValidateBtn();
-isMaxAmount() 
+
+isMaxAmount();
 
 
-///// - DECLARATION DES FONCTIONS - /////
+///// - - DECLARATION DES FONCTIONS - - /////
 
 ///Affichage des articles dans le html:
 async function articleSelectedDisplay() {
@@ -83,6 +84,7 @@ async function articleSelectedDisplay() {
     customiseSection.appendChild(optionCustom)
     }
 };
+
 //activation du bouton valider la commande si le pannier contient des articles:
 async function activateValidateBtn() {
   await articleSelectedDisplay()
@@ -91,9 +93,10 @@ async function activateValidateBtn() {
   validateBtn.classList.replace("btn-primary", "btn-info");
   }
 };
+
 //fonction calcul du prix total à l'event change du nombre d'article
 function getAmountArticles() {
-  let articleTotal
+  let articleTotal;
   //definition variable pour le nombre d'articles
   let choiceNumbers = numbersSection.options[numbersSection.selectedIndex].text;
   //calcule du prix total:
@@ -104,7 +107,7 @@ function getAmountArticles() {
   `
   ${price} €
   `
-  //boucle pour creation d'un total
+  //boucle pour creation d'un nouvel objet avec la quantité.
   for(let num in choiceNumbers) {
     articleTotal = {
       name: articleSelected.name,
@@ -116,17 +119,16 @@ function getAmountArticles() {
   }
   articleTotalSelected = articleTotal;
 };
+
 //stockage des articles dans le localStorage
 async function addArticles(e) {
+  //récupération du nombre d'articles du selecy:
   let choiceNumbers = numbersSection.options[numbersSection.selectedIndex].text;
   // definition de la fonction pour ajouter les articles dans le localStorage selon le nombre choisi:
   const addSome = () => {
     articleInLocalStorage.push(articleTotalSelected);
     //modification de l'objet en json et envoi dans key "article"
     localStorage.setItem("article", JSON.stringify(articleInLocalStorage));
-    //activation du bouton valider la commande
-    validateBtn.removeAttribute("disabled");
-    validateBtn.classList.replace("btn-primary", "btn-info")
     //puis actualisation de la page pour afficher le nombre d'article dans la popup panier
     location.reload();
   }
@@ -164,7 +166,8 @@ async function addArticles(e) {
   e.stopPropagation()
 }
 };
-//desactivation du bouton ajout si max 20:
+
+//Desactivation du bouton ajout si max 20:
 function isMaxAmount() {
   if (articleInLocalStorage) {
     articleInLocalStorage.forEach(el => {

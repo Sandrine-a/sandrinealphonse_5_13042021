@@ -1,20 +1,19 @@
-///// - VARIABLES GLOBALES - /////
+///// -  - VARIABLES GLOBALES - - /////
 
 //stockage de la liste des articles:
 let articlesList = [];
 ///section d'affichage des cartes article:
 const list = document.getElementById("articles__list");
 
-///// - FONCTIONS - /////
+///// - - FONCTIONS - - /////
 
 ///Fonctions from app.js: pop-up panier si rempli:
-//affichage pop up avec articles 
 onCartEdit();
 
 ///Fonctions de la page:
 articlesListDisplay();
 
-///// - DECLARATION DES FONCTIONS - /////
+///// - - DECLARATION DES FONCTIONS - - /////
 
 ///Recuperation liste articles cameras via urlApi from app.js":
 async function getArticles() {
@@ -32,10 +31,10 @@ async function getArticles() {
       //ajout message d'erreur dans la page:
       list.innerHTML =
         ` <p class="col text-info h5">Une erreur est survenue, nous vous prions de bien vouloir réessayer dans un instant.</P>
-        <p class="h5">${err}<p>`
-        
+        <p class="h5">${err}<p>`  
     });
 };
+
 ///affichage inner HTML des articles dans des cartes:
 async function articlesListDisplay() {
   await getArticles();

@@ -1,6 +1,6 @@
 /* Fichier js regroupant les variables et fonctions réutilisées */
 
-///// - VARIABLES GLOBALES - /////
+///// - - VARIABLES GLOBALES - - /////
 
 //url de l'api cameras:
 const urlApi = "http://localhost:3000/api/cameras/";
@@ -11,7 +11,7 @@ let articleInLocalStorage = JSON.parse(localStorage.getItem("article"));
 const displayTotalPrice =  document.querySelector(".control__panier--total");
 
 
- ///// - DECLARATION DES FONCTIONS - /////
+ ///// - - DECLARATION DES FONCTIONS - - /////
  
 //Affichage de la popup avec nombre d'articles dans le nav du header:
 function onCartEdit() {
@@ -37,7 +37,8 @@ function onCartEdit() {
   catch {
     console.error("Erreur sur l'affichage de la pop up")
   }
-};
+}; 
+
 ///- Fonction calcul du total de la commande:
 function totalOrder() {
   let tot = 0;
