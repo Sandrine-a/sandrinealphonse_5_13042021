@@ -11,7 +11,7 @@ const tabHeaderCart = document.getElementById("tab__header");
 const displayPrice = document.getElementById("panier__display--content");
 //Section qui contient le message en cas de panier vide:
 const messageCartEmpty = document.getElementById("panier__display__message");
-//Decalaration du tableau avec id du panier
+//Decalaration du tableau avec id du panier:
 let id =[];
 ////Partie gestion du forumlaire:
 //Formulaire:
@@ -38,8 +38,9 @@ contactForm.addEventListener('submit', inputCheck);
 
 ///// - - DECLARATION DES FONCTIONS - - /////
 
-///Calcul des sommes par elements dans panier et envoi objet products en localstorage:
+///Tri des articles et classement puis récupération des id pour envoi en envoie du tableau products en localstorage:
 function articlesInCartSome() {
+
   ///1- - tri des articles par nom de produit
   const sortByName= articleInLocalStorage.sort((a, b) => {
     if(a.name > b.name ){
@@ -47,17 +48,20 @@ function articlesInCartSome() {
     } else {
       return -1;
     }
-  })
-  sortByName
+  });
+  sortByName;
+
   ///2- - Récupération des id uniquement:
   //puis envoi des id en tableau
   const filterById = articleInLocalStorage.filter(function(idFilter) {
     return id.push(idFilter.id);
-  })
-  filterById
+  });
+  filterById;
   let products = id;
+
   //Envoi objet products dans localstorage et transfomation en string:
   localStorage.setItem("products", JSON.stringify(products));
+
   /// 3 - - envoie dans le html prix et produits
   for (let i=0; i < articleInLocalStorage.length; i ++) {
       //ajout des <articles> pour article:
@@ -90,11 +94,12 @@ function isQuantityMaxlenght() {
   articleInLocalStorage.forEach(el => {
     let btnPlus = document.querySelectorAll("#btn__plus");
     let isQtyMax = true;
+
     for (let b = 0; b < btnPlus.length; b ++) {
       //variable pour récupérer le nom de l'article liée au bouton:
       const nameForBtnPlusContainer = btnPlus[b].parentElement.parentElement.firstElementChild.firstElementChild.textContent;
+
       if(el.qty >= 20) {
-        console.log("max reach");
         return isQtyMax;
       } else {
         if (el.name === nameForBtnPlusContainer) {
@@ -132,7 +137,6 @@ function changeQuantity() {
             if(confirm(`Confirmez-vous la suppresion du ${item.name} ?`)) {
               //Si articles totalement suppprimés, suppression du localStorage par filter:
               articleInLocalStorage = articleInLocalStorage.filter((el)=> {
-                console.log(el.qty == 0);
                 return el.qty !== 0;
               })
             } 
@@ -181,9 +185,10 @@ function changeQuantity() {
   };
 };
 
-///bouton vider panier:
+///Fonction du bouton vider panier:
 function clearCart(e) {
   e.stopPropagation()
+  
   //popup pour confirmer le panier vide:
   if (window.confirm("Souhaitez-vous vider entièrement votre panier?")) {
     //on vide le localStorage
@@ -193,8 +198,9 @@ function clearCart(e) {
   }
 };
 
-//init: pour affichage des produits dans onload: 
+//init: pour affichage des produits ou du message panier vide: 
 const init = () => {
+
   //affichage du contenu de la page en cas de panier vide: 
   if(articleInLocalStorage == null || articleInLocalStorage.length == 0 ) {
     //si le panier est vidé individuellement par les btn -:
@@ -219,6 +225,7 @@ const init = () => {
 
 //Vérification des données du formulaire puis appel de la fonction envoi
 function inputCheck(event) {
+  
   if (contactForm.checkValidity() === false) {
     event.preventDefault();
     event.stopPropagation();
@@ -226,11 +233,13 @@ function inputCheck(event) {
   contactForm.classList.add('was-validated');
   sentFormToServer(event)
 };
+
 //Envoi des données et id produits dans localStorage +  envoi au server
 async function sentFormToServer(event) {
-  event.preventDefault()
-  await inputCheck()
+  event.preventDefault();
+  await inputCheck();
   let products = id;
+
   //stockage des données dans un objet contact:
   const contact = {
     firstName: firstName.value,
@@ -238,15 +247,17 @@ async function sentFormToServer(event) {
     address: adress.value,
     city: city.value,
     email:  email.value
-  }
+  };
+
   //envoi objet contact dans localstorage et transfomation en string:
   localStorage.setItem("contact", JSON.stringify(contact));
+  
   //Mettre les values du formulaire dans un object:
   const sendFormToServer = {
     contact,
     products
   }
-  sendFormToServer
+  sendFormToServer;
   //envoi de de l'objet au server avec données localstorage contact et products:
   const promiseCom = fetch("http://localhost:3000/api/cameras/order", {
     method: "POST",
@@ -255,16 +266,13 @@ async function sentFormToServer(event) {
       'Accept': 'application/json',
       'Content-Type' : 'application/json'
     }
-  });
-  console.log();
-  //voir le resultat du server response:
+  })
   promiseCom.then(async(response) => {
+  //voir le resultat du server response:
     try {
       //reponse du server en json
       const contenuRes = await response.json()
-      console.log(contenuRes);
       if(response.ok) {
-        console.log(`résultat de la response: ${response.ok}`)
         //recuperation de la réponse
         //envoiel'OrderID dans localstorage pour stockage
         localStorage.setItem("orderId", (contenuRes.orderId))
@@ -290,7 +298,7 @@ async function sentFormToServer(event) {
       `
       contactForm.appendChild(contentError);
     }
-  })
+  });
 };
 
 //fonction onload
