@@ -13,9 +13,6 @@ const orderId = localStorage.getItem("orderId");
 //Fonction du fichier app.js:
 totalOrder();
 
-//fonction de ce fichier:
-clearOrder();
-
 //Affichage de l'id de commande dans la page:
 if(articleInLocalStorage) {
 
@@ -30,8 +27,7 @@ if(articleInLocalStorage) {
 ///// - - DECLARATION DES FONCTIONS - - /////
 
 //on vide le localStorage:
-async function clearOrder() {
-  await totalOrder()
+setTimeout(function clearOrder() {
       //on vide le localStorage
       localStorage.clear()
-};
+}, 3000);

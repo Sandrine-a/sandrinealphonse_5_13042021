@@ -17,7 +17,8 @@ articlesListDisplay();
 
 ///Recuperation liste articles cameras via urlApi from app.js":
 async function getArticles() {
-  await fetch(urlApi)
+  console.log(urlApi);
+  await fetch(`${urlApi}/api/cameras/`)
     .then(function (res) {
       if (res.ok) {
         return res.json();

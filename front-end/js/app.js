@@ -3,7 +3,12 @@
 ///// - - VARIABLES GLOBALES - - /////
 
 //url de l'api cameras:
-const urlApi = "http://localhost:3000/api/cameras/";
+/* const urlApi = "http://localhost:3000/api/cameras/"; */
+
+let urlApi  = (location.hostname === "localhost" || location.hostname === "127.0.0.1")
+  ? "http://localhost:3000"
+  : "https://orinoco-cameras-shop.herokuapp.com";
+
 //Parse article dans localStorage:
 let articleInLocalStorage = JSON.parse(localStorage.getItem("article"));
 //affichage du prix total Pages Panier et confirmation:

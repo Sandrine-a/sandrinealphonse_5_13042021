@@ -6,7 +6,8 @@ const stringSearchUrlById = window.location.search;
 //Récuperation de l'article avec id
 const removePoint = stringSearchUrlById.substring(4);
 //Aajout de l'id à l'url de l'api (enregistrée en constnte dans le fichier app.js)
-const urlArticle = urlApi + removePoint;
+/* const urlArticle = urlApi + removePoint; */
+const urlArticle = `${urlApi}/api/cameras/${removePoint}`;
 //Création de la section 
 const section = document.getElementById('article__display');
 //Section d'ajout d'article:
