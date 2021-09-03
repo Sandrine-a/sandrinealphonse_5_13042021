@@ -4,7 +4,8 @@
   "description": "construire un site ecommerce",
   "main": "index.js",
   "scripts": {
-    "sass": "sass --watch ./scss/styles.scss:./css/styles.css"
+    "sass": "sass --watch ./scss/styles.scss:./css/styles.css",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,15 @@
   },
   "homepage": "https://github.com/Sandrine-a/sandrinealphonse_5_13042021#readme",
   "dependencies": {
-    "bootstrap": "^5.0.2"
+    "bootstrap": "^5.0.2",
+    "core-js": "^3.16.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.0",
+    "@babel/preset-env": "^7.15.0",
+    "babel-loader": "^8.2.2",
+    "babel-polyfill": "^6.26.0",
+    "webpack": "^5.51.1",
+    "webpack-cli": "^4.8.0"
   }
 }

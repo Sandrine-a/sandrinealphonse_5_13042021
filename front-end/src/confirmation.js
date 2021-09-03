@@ -1,3 +1,8 @@
+/* //Import polyfill et sauvegarder puis passer en remarque pour eviter err
+import 'babel-polyfill'; */
+
+import { articleInLocalStorage, totalOrder } from './app';
+
 ///// - - VARIABLES GLOBALES - - /////
 //affichage du numéro de commande orderId:
 const orderIdField = document.querySelector(".recap__order__id");

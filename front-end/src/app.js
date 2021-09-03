@@ -54,3 +54,5 @@ function totalOrder() {
   return displayTotalPrice.innerHTML = `${tot} €`;
 };
 
+///// - - EXPORT - - /////
+export{ urlApi, articleInLocalStorage, displayTotalPrice ,onCartEdit , totalOrder };

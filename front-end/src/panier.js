@@ -1,3 +1,8 @@
+/* //Import polyfill et sauvegarder puis passer en remarque pour eviter err
+import 'babel-polyfill'; */
+
+import { urlApi, articleInLocalStorage, onCartEdit , totalOrder } from './app';
+
 ///// - - VARIABLES GLOBALES - - /////
 
 ///Partie afficahge du panier:
@@ -259,7 +264,7 @@ async function sentFormToServer(event) {
   }
   sendFormToServer;
   //envoi de de l'objet au server avec données localstorage contact et products:
-  const promiseCom = fetch("http://localhost:3000/api/cameras/order", {
+  const promiseCom = fetch( `${urlApi}/api/cameras/order`, {
     method: "POST",
     body:  JSON.stringify(sendFormToServer),
     headers: {

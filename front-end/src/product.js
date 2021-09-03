@@ -1,3 +1,8 @@
+/* //Import polyfill et sauvegarder puis passer en remarque pour eviter err
+import 'babel-polyfill'; */
+
+import { urlApi, articleInLocalStorage ,onCartEdit } from './app';
+
 ///// - - VARIABLES GLOBALES - - /////
 
 ////Construction de l'url pour fetch l'article:
